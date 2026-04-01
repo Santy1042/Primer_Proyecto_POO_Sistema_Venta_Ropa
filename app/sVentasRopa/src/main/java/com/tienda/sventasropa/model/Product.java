@@ -13,10 +13,10 @@ public class Product {
     private String productName;
     private String productSize;
     private String productColor;
-    private String productPrice;
-    private String productStock;
+    private double productPrice;
+    private int productStock;
 
-    public Product(int productId, String productName, String productSize, String productColor, String productPrice, String productStock) {
+    public Product(int productId, String productName, String productSize, String productColor, double productPrice, int productStock) {
         this.productId = productId;
         this.productName = productName;
         this.productSize = productSize;
@@ -60,19 +60,19 @@ public class Product {
         this.productColor = productColor;
     }
 
-    public String getProductPrice() {
+    public double getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(String productPrice) {
+    public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
     }
 
-    public String getProductStock() {
+    public int getProductStock() {
         return productStock;
     }
 
-    public void setProductStock(String productStock) {
+    public void setProductStock(int productStock) {
         this.productStock = productStock;
     }
     
