@@ -1,7 +1,6 @@
 package com.tienda.sventasropa.service;
 
 import com.tienda.sventasropa.model.Product;
-import com.tienda.sventasropa.repository.ProductRepository;
 import com.tienda.sventasropa.repository.IProductRepository;
 import java.util.List;
 
@@ -12,19 +11,19 @@ import java.util.List;
 public class ProductService {
     private final IProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(IProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
-    public void registrarProducto(int id, String name, String size, String color, double price, int stock) { 
+    public boolean registrarProducto(int id, String name, String size, String color, double price, int stock) { 
+        if (id < 0) {
+            throw new IllegalArgumentException("El ID del producto no puede ser negativo.");
+        }
+
         for (Product product : productRepository.getAllProducts()) {
             if (product.getProductId() == id) {
                 throw new IllegalArgumentException("El ID del producto ya existe. Por favor, elija un ID único.");
             }
-        }
-
-        if (id < 0) {
-            throw new IllegalArgumentException("El ID del producto no puede ser negativo.");
         }
 
         if (name == null || name.trim().isEmpty()) {
@@ -51,20 +50,20 @@ public class ProductService {
         if (!productRepository.addProduct(product)) {
             throw new IllegalArgumentException("No se pudo registrar el producto.");
         }
-        System.out.println("Producto registrado exitosamente: " + product.getProductName());
+        return true;
     }
 
-    public void eliminarProducto(int productId) {
+    public boolean eliminarProducto(int productId) {
         if (productId < 0) {
             throw new IllegalArgumentException("El ID del producto no puede ser negativo.");
         }
         if (!productRepository.deleteProduct(productId)) {
             throw new IllegalArgumentException("No se encontró un producto con el ID especificado.");
         }
-        System.out.println("Producto con ID " + productId + " eliminado exitosamente.");
+        return true;
     }
 
-    public void actualizarProducto(int id, String name, String size, String color, double price, int stock) {
+    public boolean actualizarProducto(int id, String name, String size, String color, double price, int stock) {
        Product existingProduct = productRepository.findProductById(id);
         if (existingProduct == null) {
             throw new IllegalArgumentException("No se encontró un producto con el ID especificado.");
@@ -94,7 +93,7 @@ public class ProductService {
         if (!productRepository.updateProduct(id, updatedProduct)) {
             throw new IllegalArgumentException("No se pudo actualizar el producto.");
         }
-        System.out.println("Producto actualizado exitosamente: " + updatedProduct.getProductName());
+        return true;
     }
 
     public Product buscarProductoPorId(int productId) {
@@ -109,9 +108,6 @@ public class ProductService {
     }
 
     public List<Product> obtenerTodosLosProductos() {
-        if (productRepository.getAllProducts().isEmpty()) {
-            throw new IllegalArgumentException("No hay productos registrados.");
-        }
         return productRepository.getAllProducts();
     }
     

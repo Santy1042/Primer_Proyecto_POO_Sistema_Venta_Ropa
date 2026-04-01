@@ -17,10 +17,7 @@ public class ProductRepository implements IProductRepository {
 
     @Override
     public boolean addProduct(Product product) {
-        if (products.add(product)) {
-            return true;
-        }
-        return false;
+        return products.add(product);
     }
 
     @Override
@@ -32,26 +29,25 @@ public class ProductRepository implements IProductRepository {
                     return true;
                 }
             }
-        } else {
-            return false;
-        }
+        } 
         return false;
     }
 
     @Override
     public boolean updateProduct(int productId, Product updatedProduct) {
         if (productId >= 0) {
-            for (Product product : products) {
-                if (product.getProductId() == productId) {
-                    products.set(products.indexOf(product), updatedProduct);
-                    return true;
-                }
+            Product existing = findProductById(productId);
+            if (existing == null) return false;
+
+            existing.setProductName(updatedProduct.getProductName());
+            existing.setProductSize(updatedProduct.getProductSize());
+            existing.setProductColor(updatedProduct.getProductColor());
+            existing.setProductPrice(updatedProduct.getProductPrice());
+            existing.setProductStock(updatedProduct.getProductStock());
+            return true;
             }
-        } else {
-            return false;
-        }
         return false;
-    }
+        }
 
     @Override
     public Product findProductById(int productId) {
@@ -61,8 +57,6 @@ public class ProductRepository implements IProductRepository {
                     return product;
                 }
             }
-        } else {
-            return null;
         }
         return null;
     }
