@@ -8,9 +8,9 @@ import java.util.List;
  * @author Santy
  */
 public interface IProductRepository {
-    void addProduct (Product producto);
-    void deleteProduct (int productId);
-    void updateProduct (int productId, Product updatedProduct);
+    boolean addProduct (Product producto);
+    boolean deleteProduct (int productId);
+    boolean updateProduct (int productId, Product updatedProduct);
     Product findProductById (int productId);
     List<Product> getAllProducts();
 

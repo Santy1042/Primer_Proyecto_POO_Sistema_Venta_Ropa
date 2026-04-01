@@ -8,17 +8,22 @@ import java.util.List;
  *
  * @author Santy
  */
-public class ProductRepository {
+public class ProductRepository implements IProductRepository {
     private final List<Product> products;
 
     public ProductRepository() {
         this.products = new ArrayList<>();
     }
 
-    public void addProduct(Product product) {
-        products.add(product);
+    @Override
+    public boolean addProduct(Product product) {
+        if (products.add(product)) {
+            return true;
+        }
+        return false;
     }
 
+    @Override
     public boolean deleteProduct(int productId) {
         if (productId >= 0) {
             for (Product product : products) {
@@ -33,6 +38,7 @@ public class ProductRepository {
         return false;
     }
 
+    @Override
     public boolean updateProduct(int productId, Product updatedProduct) {
         if (productId >= 0) {
             for (Product product : products) {
@@ -47,6 +53,7 @@ public class ProductRepository {
         return false;
     }
 
+    @Override
     public Product findProductById(int productId) {
         if (productId >= 0) {
             for (Product product : products) {
@@ -60,6 +67,7 @@ public class ProductRepository {
         return null;
     }
 
+    @Override
     public List<Product> getAllProducts() {
         return new ArrayList<>(products);
     }
