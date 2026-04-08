@@ -1,4 +1,4 @@
-package com.tienda.sventasropa.repository;
+package com.tienda.sventasropa.interfaces;
 
 import com.tienda.sventasropa.model.Product;
 import java.util.List;

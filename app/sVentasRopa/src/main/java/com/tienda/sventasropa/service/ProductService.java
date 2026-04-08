@@ -1,7 +1,7 @@
 package com.tienda.sventasropa.service;
 
 import com.tienda.sventasropa.model.Product;
-import com.tienda.sventasropa.repository.IProductRepository;
+import com.tienda.sventasropa.interfaces.IProductRepository;
 import java.util.List;
 
 /**

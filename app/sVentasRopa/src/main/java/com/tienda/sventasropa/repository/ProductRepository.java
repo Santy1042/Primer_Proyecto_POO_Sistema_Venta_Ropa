@@ -1,5 +1,6 @@
 package com.tienda.sventasropa.repository;
 
+import com.tienda.sventasropa.interfaces.IProductRepository;
 import com.tienda.sventasropa.model.Product;
 import java.util.ArrayList;
 import java.util.List;

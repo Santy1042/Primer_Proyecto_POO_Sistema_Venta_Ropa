@@ -6,7 +6,7 @@ package com.tienda.sventasropa.service;
 
 import com.tienda.sventasropa.model.Client;
 import com.tienda.sventasropa.repository.ClientRepository;
-import com.tienda.sventasropa.repository.IClientRepository;
+import com.tienda.sventasropa.interfaces.IClientRepository;
 import java.util.List;
 
 /**
