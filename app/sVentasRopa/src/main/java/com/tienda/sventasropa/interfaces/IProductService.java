@@ -1,6 +1,8 @@
 package com.tienda.sventasropa.interfaces;
 
 
+import java.util.List;
+
 import com.tienda.sventasropa.model.Product;
 
 /**
@@ -12,4 +14,5 @@ public interface IProductService {
     boolean deleteProduct(int productId);
     boolean updateProduct(int id, String name, String size, String color, double price, int stock);
     Product findProductById(int productId);
+    List<Product> getAllProducts();
 }

@@ -18,24 +18,36 @@ public class ProductRepository implements IProductRepository {
 
     @Override
     public boolean addProduct(Product product) {
+        if (product == null) {
+            throw new IllegalArgumentException("El producto no puede ser nulo.");
+        }
         return products.add(product);
     }
 
     @Override
     public boolean deleteProduct(int productId) {
         if (productId >= 0) {
+            boolean exists = false;
             for (Product product : products) {
                 if (product.getProductId() == productId) {
-                    products.remove(product);
-                    return true;
+                    exists = true;
+                    break;
                 }
+            } 
+            if (exists) {
+                products.removeIf(p -> p.getProductId() == productId);
+                return true;
             }
-        } 
+            return false;
+        }
         return false;
     }
 
     @Override
     public boolean updateProduct(int productId, Product updatedProduct) {
+        if (updatedProduct == null) {
+            throw new IllegalArgumentException("El producto actualizado no puede ser nulo.");
+        }
         if (productId >= 0) {
             Product existing = findProductById(productId);
             if (existing == null) return false;

@@ -1,6 +1,9 @@
 package com.tienda.sventasropa.service;
 
 import com.tienda.sventasropa.model.Product;
+
+import java.util.List;
+
 import com.tienda.sventasropa.interfaces.IProductRepository;
 import com.tienda.sventasropa.interfaces.IProductService;
 
@@ -22,30 +25,28 @@ public class ProductService implements IProductService {
             throw new IllegalArgumentException("El ID del producto no puede ser negativo.");
         }
 
-        for (Product product : productRepository.getAllProducts()) {
-            if (product.getProductId() == id) {
-                throw new IllegalArgumentException("El ID del producto ya existe. Por favor, elija un ID único.");
-            }
+        if (productRepository.findProductById(id) != null) {
+            throw new IllegalArgumentException("El ID del producto ya existe. Por favor, elija un ID único.");
         }
 
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre del producto es obligatorio.");
+        if (name == null || name.trim().isEmpty() || name.length() > 100) {
+            throw new IllegalArgumentException("El nombre del producto es obligatorio y no puede exceder los 100 caracteres.");
         }
 
-        if (size == null || size.trim().isEmpty()) {
-            throw new IllegalArgumentException("El tamaño del producto es obligatorio.");
+        if (size == null || size.trim().isEmpty() || size.length() > 30) {
+            throw new IllegalArgumentException("El tamaño del producto es obligatorio y no puede exceder los 30 caracteres.");
         }
 
-        if (color == null || color.trim().isEmpty()) {
-            throw new IllegalArgumentException("El color del producto es obligatorio.");
+        if (color == null || color.trim().isEmpty() || color.length() > 30) {
+            throw new IllegalArgumentException("El color del producto es obligatorio y no puede exceder los 30 caracteres.");
         }
 
-        if (price <= 0) {
-            throw new IllegalArgumentException("El precio del producto debe ser un valor positivo.");
+        if (price <= 0 || price > 99999999) {
+            throw new IllegalArgumentException("El precio del producto debe ser un valor positivo y no mayor a 99,999,999.");
         }
 
-        if (stock <= 0) {
-            throw new IllegalArgumentException("El stock del producto debe ser un valor positivo.");
+        if (stock < 0 || stock > 1000000) {
+            throw new IllegalArgumentException("El stock del producto no puede ser un valor negativo ni mayor a 1,000,000.");
         }
 
         Product product = new Product(id, name, size, color, price, stock);
@@ -73,24 +74,24 @@ public class ProductService implements IProductService {
             throw new IllegalArgumentException("No se encontró un producto con el ID especificado.");
         }
 
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre del producto es obligatorio.");
+        if (name == null || name.trim().isEmpty() || name.length() > 100) {
+            throw new IllegalArgumentException("El nombre del producto es obligatorio y no puede exceder los 100 caracteres.");
         }
 
-        if (size == null || size.trim().isEmpty()) {
-            throw new IllegalArgumentException("El tamaño del producto es obligatorio.");
+        if (size == null || size.trim().isEmpty() || size.length() > 30) {
+            throw new IllegalArgumentException("El tamaño del producto es obligatorio y no puede exceder los 30 caracteres.");
         }
 
-        if (color == null || color.trim().isEmpty()) {
-            throw new IllegalArgumentException("El color del producto es obligatorio.");
+        if (color == null || color.trim().isEmpty() || color.length() > 30) {
+            throw new IllegalArgumentException("El color del producto es obligatorio y no puede exceder los 30 caracteres.");
         }
 
-        if (price <= 0) {
-            throw new IllegalArgumentException("El precio del producto debe ser un valor positivo.");
+        if (price <= 0 || price > 99999999) {
+            throw new IllegalArgumentException("El precio del producto debe ser un valor positivo y no mayor a 99,999,999.");
         }
 
-        if (stock <= 0) {
-            throw new IllegalArgumentException("El stock del producto debe ser un valor positivo.");
+        if (stock < 0 || stock > 1000000) {
+            throw new IllegalArgumentException("El stock del producto no puede ser un valor negativo ni mayor a 1,000,000.");
         }
 
         Product updatedProduct = new Product(id, name, size, color, price, stock);
@@ -110,6 +111,11 @@ public class ProductService implements IProductService {
             throw new IllegalArgumentException("No se encontró un producto con el ID especificado.");
         }
        return product;
+    }
+
+    @Override
+    public List<Product> getAllProducts() {
+        return productRepository.getAllProducts();
     }
     
 }
