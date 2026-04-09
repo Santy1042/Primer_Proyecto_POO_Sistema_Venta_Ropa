@@ -2,20 +2,22 @@ package com.tienda.sventasropa.service;
 
 import com.tienda.sventasropa.model.Product;
 import com.tienda.sventasropa.interfaces.IProductRepository;
-import java.util.List;
+import com.tienda.sventasropa.interfaces.IProductService;
+
 
 /**
  *
  * @author Santy
  */
-public class ProductService {
+public class ProductService implements IProductService {
     private final IProductRepository productRepository;
 
     public ProductService(IProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
-    public boolean registrarProducto(int id, String name, String size, String color, double price, int stock) { 
+    @Override
+    public boolean addProduct(int id, String name, String size, String color, double price, int stock) { 
         if (id < 0) {
             throw new IllegalArgumentException("El ID del producto no puede ser negativo.");
         }
@@ -53,7 +55,8 @@ public class ProductService {
         return true;
     }
 
-    public boolean eliminarProducto(int productId) {
+    @Override
+    public boolean deleteProduct(int productId) {
         if (productId < 0) {
             throw new IllegalArgumentException("El ID del producto no puede ser negativo.");
         }
@@ -63,7 +66,8 @@ public class ProductService {
         return true;
     }
 
-    public boolean actualizarProducto(int id, String name, String size, String color, double price, int stock) {
+    @Override
+    public boolean updateProduct(int id, String name, String size, String color, double price, int stock) {
        Product existingProduct = productRepository.findProductById(id);
         if (existingProduct == null) {
             throw new IllegalArgumentException("No se encontró un producto con el ID especificado.");
@@ -96,7 +100,8 @@ public class ProductService {
         return true;
     }
 
-    public Product buscarProductoPorId(int productId) {
+    @Override
+    public Product findProductById(int productId) {
         if (productId < 0) {
             throw new IllegalArgumentException("El ID del producto no puede ser negativo.");
         }
@@ -105,10 +110,6 @@ public class ProductService {
             throw new IllegalArgumentException("No se encontró un producto con el ID especificado.");
         }
        return product;
-    }
-
-    public List<Product> obtenerTodosLosProductos() {
-        return productRepository.getAllProducts();
     }
     
 }
