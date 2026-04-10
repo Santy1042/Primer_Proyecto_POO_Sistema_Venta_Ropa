@@ -4,9 +4,11 @@
  */
 package com.tienda.sventasropa.repository;
 
-import com.tienda.sventasropa.model.Client;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.tienda.sventasropa.interfaces.IClientRepository;
+import com.tienda.sventasropa.model.Client;
 
 /**
  *
@@ -20,13 +22,41 @@ public class ClientRepository implements IClientRepository {
     }
     
     @Override
-    public void save(Client cliente) {
-        clients.add(cliente);
+    public boolean  registerClient(Client cliente) {
+        return clients.add(cliente);
+    }
+
+
+    @Override
+    public void editClient(int id, Client datosNuevos) {
+        for (Client client : clients) {
+            if (client.getId() == id) {
+                client.setName(datosNuevos.getName());
+                client.setLastName(datosNuevos.getLastName());
+                client.setEmail(datosNuevos.getEmail());
+                client.setPhoneNumber(datosNuevos.getPhoneNumber());
+                return;
+            }
+        }
     }
 
     @Override
-    public List<Client> getAllClients() {
-        return new ArrayList<>(clients);
+    public void deleteClient(int id) {
+        clients.removeIf(client -> client.getId() == id);
+    }
+
+    @Override
+    public Client findClientById(int id) {
+        for (Client client : clients) {
+            if (client.getId() == id) {
+                return client;
+            }
+        }
+        return null;
     }
     
+    @Override
+     public List<Client> getAllClients() {
+        return new ArrayList<>(clients);
+    }
 }
