@@ -8,27 +8,23 @@ package com.tienda.sventasropa.model;
  * Line item for a sale.
  */
 public class SaleDetail {
-    private Product product;
+    private String productName;
     private int quantity;
     private double unitPrice;
 
     public SaleDetail() {}
 
-    public SaleDetail(Product product, int quantity, double unitPrice) {
-        if (product == null) throw new IllegalArgumentException("product required");
-        if (quantity <= 0) throw new IllegalArgumentException("quantity must be > 0");
-        if (unitPrice < 0) throw new IllegalArgumentException("unit price must be >= 0");
-        this.product = product;
+    public SaleDetail(String productName, int quantity, double unitPrice) {
+        this.productName = productName;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
     }
 
-    public Product getProduct() { return product; }
+    public String getProductName() { return productName; }
+    public void setProductName(String productName) { this.productName = productName; }
+
     public int getQuantity() { return quantity; }
-    public void setQuantity(int quantity) {
-        if (quantity <= 0) throw new IllegalArgumentException("quantity must be > 0");
-        this.quantity = quantity;
-    }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
 
     public double getUnitPrice() { return unitPrice; }
     public void setUnitPrice(double unitPrice) { this.unitPrice = unitPrice; }
@@ -37,6 +33,6 @@ public class SaleDetail {
 
     @Override
     public String toString() {
-        return product.getName() + " x" + quantity + " = $" + getSubtotal();
+        return productName + " x" + quantity + " = $" + getSubtotal();
     }
 }

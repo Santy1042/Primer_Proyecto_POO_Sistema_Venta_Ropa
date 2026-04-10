@@ -21,18 +21,17 @@ public class Sale {
     public Sale() {}
 
     public Sale(int id, Client client) {
-        if (id <= 0) throw new IllegalArgumentException("id must be > 0");
-        if (client == null) throw new IllegalArgumentException("client required");
         this.id = id;
         this.client = client;
     }
 
     public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
     public Client getClient() { return client; }
     public void setClient(Client client) { this.client = client; }
 
     public void addDetail(SaleDetail detail) {
-        if (detail == null) throw new IllegalArgumentException("detail required");
         details.add(detail);
     }
 
