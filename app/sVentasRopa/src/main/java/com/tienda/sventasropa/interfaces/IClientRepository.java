@@ -8,18 +8,11 @@ import com.tienda.sventasropa.model.Client;
 import java.util.List;
 
 /**
-<<<<<<< HEAD
- * Repository interface for Client persistence.
- */
-public interface IClientRepository {
-    void save(Client cliente);
-=======
  *
  * @author Santy
  */
 public interface IClientRepository {
     void save (Client cliente);
 
->>>>>>> e02e24e (Modulo De Productos Aprobado)
     List<Client> getAllClients();
 }

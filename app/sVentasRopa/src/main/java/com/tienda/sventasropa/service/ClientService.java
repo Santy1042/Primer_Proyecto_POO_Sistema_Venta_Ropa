@@ -7,10 +7,6 @@ package com.tienda.sventasropa.service;
 import com.tienda.sventasropa.interfaces.IClientRepository;
 import com.tienda.sventasropa.model.Client;
 import com.tienda.sventasropa.repository.ClientRepository;
-<<<<<<< HEAD
-=======
-import com.tienda.sventasropa.interfaces.IClientRepository;
->>>>>>> e02e24e (Modulo De Productos Aprobado)
 import java.util.List;
 
 /**

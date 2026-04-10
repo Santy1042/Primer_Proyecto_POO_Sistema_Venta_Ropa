@@ -5,34 +5,66 @@
 package com.tienda.sventasropa.model;
 
 /**
- * Line item for a sale.
+ * Detalle de línea para una venta.
  */
 public class SaleDetail {
-    private String productName;
+    private int productId;
     private int quantity;
-    private double unitPrice;
+    private Product product;
 
     public SaleDetail() {}
 
-    public SaleDetail(String productName, int quantity, double unitPrice) {
-        this.productName = productName;
+    public SaleDetail(int productId, Product product, int quantity) {
+        if (productId <= 0) {
+            throw new IllegalArgumentException("El ID del producto debe ser mayor a 0");
+        }
+        if (product == null) {
+            throw new IllegalArgumentException("El producto no puede ser nulo");
+        }
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
+        }
+        this.productId = productId;
+        this.product = product;
         this.quantity = quantity;
-        this.unitPrice = unitPrice;
     }
 
-    public String getProductName() { return productName; }
-    public void setProductName(String productName) { this.productName = productName; }
+    public int getProductId() { return productId; }
+    public void setProductId(int productId) {
+        if (productId <= 0) {
+            throw new IllegalArgumentException("El ID del producto debe ser mayor a 0");
+        }
+        this.productId = productId;
+    }
+
+    public Product getProduct() { return product; }
+    public void setProduct(Product product) {
+        if (product == null) {
+            throw new IllegalArgumentException("El producto no puede ser nulo");
+        }
+        this.product = product;
+    }
 
     public int getQuantity() { return quantity; }
-    public void setQuantity(int quantity) { this.quantity = quantity; }
+    public void setQuantity(int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
+        }
+        this.quantity = quantity;
+    }
 
-    public double getUnitPrice() { return unitPrice; }
-    public void setUnitPrice(double unitPrice) { this.unitPrice = unitPrice; }
+    public double getUnitPrice() {
+        if (product == null) {
+            throw new IllegalStateException("El producto no está asignado");
+        }
+        return product.getProductPrice();
+    }
 
-    public double getSubtotal() { return unitPrice * quantity; }
+    public double getSubtotal() { return getUnitPrice() * quantity; }
 
     @Override
     public String toString() {
+        String productName = product != null ? product.getProductName() : "Desconocido";
         return productName + " x" + quantity + " = $" + getSubtotal();
     }
 }
