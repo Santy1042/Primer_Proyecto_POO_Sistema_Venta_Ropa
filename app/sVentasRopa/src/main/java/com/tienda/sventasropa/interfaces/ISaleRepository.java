@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Repository interface for Sale persistence.
+ * @author Apolo
  */
 public interface ISaleRepository {
     void save(Sale sale);
