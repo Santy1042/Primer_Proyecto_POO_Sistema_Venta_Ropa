@@ -1,17 +1,17 @@
 package com.tienda.sventasropa.service;
 
+import com.tienda.sventasropa.interfaces.ISaleRepository;
+import com.tienda.sventasropa.interfaces.ISaleService;
 import com.tienda.sventasropa.model.Client;
-import com.tienda.sventasropa.model.Product;
 import com.tienda.sventasropa.model.Sale;
 import com.tienda.sventasropa.model.SaleDetail;
-import com.tienda.sventasropa.repository.ISaleRepository;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Business logic for sales transactions.
  */
-public class SaleService {
+public class SaleService implements ISaleService {
     private final ISaleRepository repository;
 
     public SaleService(ISaleRepository repository) {
@@ -19,40 +19,59 @@ public class SaleService {
         this.repository = repository;
     }
 
-    // Create a new sale for a client
+    @Override
     public Sale createSale(int id, Client client) {
+        if (id <= 0) throw new IllegalArgumentException("id must be > 0");
         if (client == null) throw new IllegalArgumentException("client required");
         return new Sale(id, client);
     }
 
-    // Add product to sale (creates SaleDetail internally)
-    public void addProductToSale(Sale sale, Product product, int quantity) {
+    @Override
+    public void addProductToSale(Sale sale, SaleDetail detail) {
         if (sale == null) throw new IllegalArgumentException("sale required");
-        if (product == null) throw new IllegalArgumentException("product required");
-        if (quantity <= 0) throw new IllegalArgumentException("quantity must be > 0");
+        if (detail == null) throw new IllegalArgumentException("detail required");
+        if (detail.getProductName() == null || detail.getProductName().trim().isEmpty()) 
+            throw new IllegalArgumentException("product name required");
+        if (detail.getQuantity() <= 0) throw new IllegalArgumentException("quantity must be > 0");
+        if (detail.getUnitPrice() < 0) throw new IllegalArgumentException("unit price must be >= 0");
         
-        SaleDetail detail = new SaleDetail(product, quantity, product.getUnitPrice());
         sale.addDetail(detail);
     }
 
-    // Save completed sale
+    @Override
     public void saveSale(Sale sale) {
         if (sale == null) throw new IllegalArgumentException("sale required");
         if (!sale.hasDetails()) throw new IllegalArgumentException("sale must have items");
+        if (sale.getClient() == null) throw new IllegalArgumentException("client required");
         repository.save(sale);
     }
 
-    // Retrieve all sales
+    @Override
+    public void updateSale(Sale sale) {
+        if (sale == null) throw new IllegalArgumentException("sale required");
+        if (!sale.hasDetails()) throw new IllegalArgumentException("sale must have items");
+        if (sale.getClient() == null) throw new IllegalArgumentException("client required");
+        repository.update(sale);
+    }
+
+    @Override
+    public void deleteSale(int id) {
+        if (id <= 0) throw new IllegalArgumentException("id must be > 0");
+        repository.delete(id);
+    }
+
+    @Override
     public List<Sale> getAllSales() {
         return repository.list();
     }
 
-    // Find sale by ID
+    @Override
     public Optional<Sale> findSale(int id) {
+        if (id <= 0) throw new IllegalArgumentException("id must be > 0");
         return repository.findById(id);
     }
 
-    // Calculate total revenue
+    @Override
     public double getTotalRevenue() {
         return repository.list().stream()
                 .mapToDouble(Sale::getTotal)
