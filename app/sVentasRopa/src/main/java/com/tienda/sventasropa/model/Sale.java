@@ -19,8 +19,6 @@ public class Sale {
     private final LocalDateTime date = LocalDateTime.now();
     private double subtotal;
 
-    public Sale() {}
-
     public Sale(int id, Client client) {
         if (id <= 0) {
             throw new IllegalArgumentException("El ID de la venta debe ser mayor a 0");
@@ -39,7 +37,12 @@ public class Sale {
     }
 
     public Client getClient() { return client; }
-    public void setClient(Client client) { this.client = client; }
+    public void setClient(Client client) {
+        if (client == null) {
+            throw new IllegalArgumentException("El cliente no puede ser nulo");
+        }
+        this.client = client;
+    }
 
     public void addDetail(SaleDetail detail) {
         if (detail == null) {

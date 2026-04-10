@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Simple in-memory Sale repository.
+ * Repositorio en memoria simple para Sales.
  */
 public class SaleRepository implements ISaleRepository {
     private final List<Sale> storage = new ArrayList<>();
 
     @Override
     public void save(Sale sale) {
-        if (sale == null) throw new IllegalArgumentException("sale required");
+        if (sale == null) throw new IllegalArgumentException("La venta no puede ser nula");
         storage.add(sale);
     }
 
@@ -35,7 +35,7 @@ public class SaleRepository implements ISaleRepository {
 
     @Override
     public void update(Sale sale) {
-        if (sale == null) throw new IllegalArgumentException("sale required");
+        if (sale == null) throw new IllegalArgumentException("La venta no puede ser nula");
         storage.stream()
                 .filter(s -> s.getId() == sale.getId())
                 .findFirst()
@@ -45,7 +45,7 @@ public class SaleRepository implements ISaleRepository {
                         storage.set(index, sale);
                     },
                     () -> {
-                        throw new IllegalArgumentException("Sale not found");
+                        throw new IllegalArgumentException("No se encontró una venta con el ID especificado");
                     }
                 );
     }
