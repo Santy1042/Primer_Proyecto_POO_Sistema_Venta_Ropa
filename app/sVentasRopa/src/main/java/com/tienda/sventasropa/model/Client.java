@@ -11,15 +11,17 @@ package com.tienda.sventasropa.model;
 public class Client {
     private int id;
     private String name;
+    private String lastName;
     private String email;
     private String phoneNumber;
 
     public Client() {
     }
 
-    public Client(int id, String name, String email, String phoneNumber) {
+    public Client(int id, String name, String lastName, String email, String phoneNumber) {
         this.id = id;
         this.name = name;
+        this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
@@ -54,5 +56,13 @@ public class Client {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
