@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tienda.sventasropa.repository;
 
 import com.tienda.sventasropa.interfaces.ISaleRepository;
@@ -11,9 +7,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Repositorio en memoria simple para Sales.
- */
 public class SaleRepository implements ISaleRepository {
     private final List<Sale> storage = new ArrayList<>();
 
