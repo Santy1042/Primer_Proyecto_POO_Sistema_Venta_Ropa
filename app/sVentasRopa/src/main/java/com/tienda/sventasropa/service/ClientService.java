@@ -10,8 +10,8 @@ import com.tienda.sventasropa.repository.ClientRepository;
 import java.util.List;
 
 /**
- *
- * @author Santy
+ * Servicio de lógica de negocio para clientes
+ * Valida y gestiona operaciones de clientes
  */
 public class ClientService {
     private final IClientRepository clientRepository;
