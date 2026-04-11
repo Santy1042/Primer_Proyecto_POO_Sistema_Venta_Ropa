@@ -88,7 +88,7 @@ public class MainFrame extends JFrame {
     }
 
     private void openClientForm() {
-        JClientForm frame = new JClientForm(clientService);
+        JAddClientForm frame = new JAddClientForm(clientService);
         desktopPane.add(frame);
         frame.setVisible(true);
     }
