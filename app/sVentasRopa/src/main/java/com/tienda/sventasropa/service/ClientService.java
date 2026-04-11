@@ -9,70 +9,92 @@ import com.tienda.sventasropa.interfaces.IClientService;
 import com.tienda.sventasropa.model.Client;
 import com.tienda.sventasropa.repository.ClientRepository;
 import java.util.List;
+import com.tienda.sventasropa.interfaces.IClientRepository;
+import com.tienda.sventasropa.interfaces.IClientService;
+import com.tienda.sventasropa.model.Client;
 
 /**
- * Servicio de Clientes: lógica de negocio para gestión de clientes
- * @author Santy
+ * Servicio de lógica de negocio para clientes
+ * Valida y gestiona operaciones de clientes
  */
 public class ClientService implements IClientService {
     private final IClientRepository clientRepository;
 
-    public ClientService(ClientRepository clientRepository) {
-        if (clientRepository == null) {
-            throw new IllegalArgumentException("El repositorio de clientes no puede ser nulo");
-        }
+    public ClientService(IClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
     @Override
-    public void registerClient(Client cliente) {
-        if (cliente == null) {
-            throw new IllegalArgumentException("El cliente no puede ser nulo");
+    public void registerClient(Client client) {
+        // Validaciones
+        if (client == null) {
+            throw new IllegalArgumentException("El cliente no puede ser nulo.");
         }
-        if (cliente.getName() == null || cliente.getName().trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre es obligatorio");
+        if (client.getName() == null || client.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre es obligatorio.");
         }
-        if (cliente.getEmail() == null || cliente.getEmail().trim().isEmpty()) {
-            throw new IllegalArgumentException("El correo es obligatorio");
+        if (client.getLastName() == null || client.getLastName().trim().isEmpty()) {
+            throw new IllegalArgumentException("El apellido es obligatorio.");
         }
-        clientRepository.save(cliente);
+        if (client.getEmail() == null || client.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("El email es obligatorio.");
+        }
+        if (findClientById(client.getId()) != null) {
+            throw new IllegalArgumentException("Ya existe un cliente con esa cédula.");
+        }
+        
+        // Guardar cliente
+        boolean guardado = clientRepository.save(client);
+        if (!guardado) {
+            throw new RuntimeException("No se pudo guardar el cliente.");
+        }
     }
 
     @Override
     public void editClient(int id, Client datosNuevos) {
+        // Validaciones
         if (datosNuevos == null) {
-            throw new IllegalArgumentException("Los datos del cliente no pueden ser nulos");
+            throw new IllegalArgumentException("Los datos no pueden ser nulos.");
         }
-        if (id <= 0) {
-            throw new IllegalArgumentException("El ID del cliente debe ser mayor a 0");
+        
+        Client encontrado = findClientById(id);
+        if (encontrado == null) {
+            throw new IllegalArgumentException("No se encontró el cliente con ID: " + id);
         }
-        Client existing = clientRepository.findClientById(id);
-        if (existing == null) {
-            throw new IllegalArgumentException("No existe cliente con ID: " + id);
+        
+        if (datosNuevos.getName() == null || datosNuevos.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre es obligatorio.");
         }
+        if (datosNuevos.getLastName() == null || datosNuevos.getLastName().trim().isEmpty()) {
+            throw new IllegalArgumentException("El apellido es obligatorio.");
+        }
+        if (datosNuevos.getEmail() == null || datosNuevos.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("El email es obligatorio.");
+        }
+        
+        // Editar cliente
         clientRepository.editClient(id, datosNuevos);
     }
 
     @Override
     public void deleteClient(int id) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("El ID del cliente debe ser mayor a 0");
+        Client encontrado = findClientById(id);
+        if (encontrado == null) {
+            throw new IllegalArgumentException("No se encontró el cliente con ID: " + id);
         }
-        Client existing = clientRepository.findClientById(id);
-        if (existing == null) {
-            throw new IllegalArgumentException("No existe cliente con ID: " + id);
-        }
+        
         clientRepository.deleteClient(id);
     }
 
     @Override
     public Client findClientById(int id) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("El ID del cliente debe ser mayor a 0");
+        if (id < 0) {
+            throw new IllegalArgumentException("El ID del cliente no puede ser negativo.");
         }
         return clientRepository.findClientById(id);
     }
 
+    @Override
     public List<Client> getAllClients() {
         return clientRepository.getAllClients();
     }
