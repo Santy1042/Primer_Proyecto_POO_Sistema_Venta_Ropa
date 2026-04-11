@@ -11,7 +11,9 @@ import com.tienda.sventasropa.interfaces.IClientRepository;
 import com.tienda.sventasropa.model.Client;
 
 /**
- *
+ * Implementación del repositorio de clientes
+ * Gestiona la persistencia de datos de clientes en memoria
+ * 
  * @author Santy
  */
 public class ClientRepository implements IClientRepository {
@@ -22,10 +24,12 @@ public class ClientRepository implements IClientRepository {
     }
     
     @Override
-    public boolean  registerClient(Client cliente) {
+    public boolean save(Client cliente) {
+        if (cliente == null) {
+            return false;
+        }
         return clients.add(cliente);
     }
-
 
     @Override
     public void editClient(int id, Client datosNuevos) {
@@ -56,7 +60,7 @@ public class ClientRepository implements IClientRepository {
     }
     
     @Override
-     public List<Client> getAllClients() {
+    public List<Client> getAllClients() {
         return new ArrayList<>(clients);
     }
 }

@@ -4,21 +4,18 @@
  */
 package com.tienda.sventasropa.service;
 
-
-import java.util.ArrayList;
 import java.util.List;
-
 import com.tienda.sventasropa.interfaces.IClientRepository;
-import com.tienda.sventasropa.model.Client;
 import com.tienda.sventasropa.interfaces.IClientService;
-
+import com.tienda.sventasropa.model.Client;
 
 /**
- *
+ * Servicio de lógica de negocio para clientes
+ * Valida y gestiona operaciones de clientes
  * 
+ * @author Santy
  */
 public class ClientService implements IClientService {
-
     private final IClientRepository clientRepository;
 
     public ClientService(IClientRepository clientRepository) {
@@ -27,8 +24,7 @@ public class ClientService implements IClientService {
 
     @Override
     public void registerClient(Client client) {
-
-
+        // Validaciones
         if (client == null) {
             throw new IllegalArgumentException("El cliente no puede ser nulo.");
         }
@@ -38,25 +34,32 @@ public class ClientService implements IClientService {
         if (client.getLastName() == null || client.getLastName().trim().isEmpty()) {
             throw new IllegalArgumentException("El apellido es obligatorio.");
         }
-        if (findClientById(client.getId()) != null) {
-            throw new IllegalArgumentException("Ya existe un cliente con esa cedula.");
-        }
         if (client.getEmail() == null || client.getEmail().trim().isEmpty()) {
             throw new IllegalArgumentException("El email es obligatorio.");
         }
-    
+        if (findClientById(client.getId()) != null) {
+            throw new IllegalArgumentException("Ya existe un cliente con esa cédula.");
+        }
+        
+        // Guardar cliente
+        boolean guardado = clientRepository.save(client);
+        if (!guardado) {
+            throw new RuntimeException("No se pudo guardar el cliente.");
+        }
     }
-
 
     @Override
     public void editClient(int id, Client datosNuevos) {
-        Client encontrado = findClientById(id);
+        // Validaciones
         if (datosNuevos == null) {
             throw new IllegalArgumentException("Los datos no pueden ser nulos.");
         }
+        
+        Client encontrado = findClientById(id);
         if (encontrado == null) {
-            throw new IllegalArgumentException("No se encontro el cliente.");
+            throw new IllegalArgumentException("No se encontró el cliente con ID: " + id);
         }
+        
         if (datosNuevos.getName() == null || datosNuevos.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre es obligatorio.");
         }
@@ -66,29 +69,31 @@ public class ClientService implements IClientService {
         if (datosNuevos.getEmail() == null || datosNuevos.getEmail().trim().isEmpty()) {
             throw new IllegalArgumentException("El email es obligatorio.");
         }
-        encontrado.setName(datosNuevos.getName());
-        encontrado.setLastName(datosNuevos.getLastName());
-        encontrado.setPhoneNumber(datosNuevos.getPhoneNumber());
-        encontrado.setEmail(datosNuevos.getEmail());
+        
+        // Editar cliente
+        clientRepository.editClient(id, datosNuevos);
     }
 
     @Override
     public void deleteClient(int id) {
-
         Client encontrado = findClientById(id);
         if (encontrado == null) {
-            throw new IllegalArgumentException("No se encontro el cliente.");
+            throw new IllegalArgumentException("No se encontró el cliente con ID: " + id);
         }
         
+        clientRepository.deleteClient(id);
     }
 
     @Override
     public Client findClientById(int id) {
-        if (id < 0){
+        if (id < 0) {
             throw new IllegalArgumentException("El ID del cliente no puede ser negativo.");
-        } 
-        Client client = clientRepository.findClientById(id);
-        return client;
+        }
+        return clientRepository.findClientById(id);
     }
 
+    @Override
+    public List<Client> getAllClients() {
+        return clientRepository.getAllClients();
+    }
 }

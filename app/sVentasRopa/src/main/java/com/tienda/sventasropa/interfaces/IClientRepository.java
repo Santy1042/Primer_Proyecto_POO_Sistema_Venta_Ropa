@@ -9,11 +9,11 @@ import java.util.List;
 import com.tienda.sventasropa.model.Client;
 
 /**
- *
- * 
+ * Interfaz para operaciones de repositorio de clientes
+ * Define los métodos CRUD para gestionar clientes
  */
 public interface IClientRepository {
-    boolean registerClient (Client cliente);
+    boolean save(Client cliente);
     void editClient(int id, Client datosNuevos);
     void deleteClient(int id);
     Client findClientById(int id);
