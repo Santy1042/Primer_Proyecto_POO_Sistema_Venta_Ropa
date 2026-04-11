@@ -4,15 +4,17 @@
  */
 package com.tienda.sventasropa.interfaces;
 
-import com.tienda.sventasropa.model.Client;
 import java.util.List;
+import com.tienda.sventasropa.model.Client;
 
 /**
- *
- * @author Santy
+ * Interfaz para operaciones de repositorio de clientes
+ * Define los métodos CRUD para gestionar clientes
  */
 public interface IClientRepository {
-    void save (Client cliente);
-
+    boolean save(Client cliente);
+    void editClient(int id, Client datosNuevos);
+    void deleteClient(int id);
+    Client findClientById(int id);
     List<Client> getAllClients();
 }
