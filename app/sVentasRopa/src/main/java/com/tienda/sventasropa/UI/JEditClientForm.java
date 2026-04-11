@@ -8,12 +8,12 @@ package com.tienda.sventasropa.UI;
  *
  * @author marco
  */
-public class JAddClientForm extends javax.swing.JInternalFrame {
+public class JEditClientForm extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form JClientForm
+     * Creates new form JEditClientForm
      */
-    public JAddClientForm() {
+    public JEditClientForm() {
         initComponents();
     }
 
@@ -26,7 +26,7 @@ public class JAddClientForm extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelForm = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         labelId = new javax.swing.JLabel();
         fieldId = new javax.swing.JTextField();
         labelName = new javax.swing.JLabel();
@@ -35,60 +35,50 @@ public class JAddClientForm extends javax.swing.JInternalFrame {
         fieldEmail = new javax.swing.JTextField();
         labelPhone = new javax.swing.JLabel();
         fieldPhone = new javax.swing.JTextField();
-        btnSave = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
-        scrollClients = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
         tableClients = new javax.swing.JTable();
 
-        setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Client Managment");
-        setPreferredSize(new java.awt.Dimension(800, 500));
+        setTitle("Edit Client");
+        setPreferredSize(new java.awt.Dimension(700, 480));
+        setRequestFocusEnabled(false);
 
-        panelForm.setBackground(new java.awt.Color(0, 204, 204));
-        panelForm.setBorder(javax.swing.BorderFactory.createTitledBorder("Client Data"));
-        panelForm.setLayout(new java.awt.GridLayout(5, 2, 8, 8));
+        jPanel1.setBackground(new java.awt.Color(102, 255, 102));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Edit Client Data"));
+        jPanel1.setLayout(new java.awt.GridLayout(5, 2, 8, 8));
 
         labelId.setText("ID:");
-        panelForm.add(labelId);
+        jPanel1.add(labelId);
 
-        fieldId.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fieldIdActionPerformed(evt);
-            }
-        });
-        panelForm.add(fieldId);
+        fieldId.setEditable(false);
+        fieldId.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(fieldId);
 
         labelName.setText("Name:");
-        panelForm.add(labelName);
-
-        fieldName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fieldNameActionPerformed(evt);
-            }
-        });
-        panelForm.add(fieldName);
+        jPanel1.add(labelName);
+        jPanel1.add(fieldName);
 
         labelEmail.setText("Email:");
-        panelForm.add(labelEmail);
-        panelForm.add(fieldEmail);
+        jPanel1.add(labelEmail);
+        jPanel1.add(fieldEmail);
 
         labelPhone.setText("Phone:");
-        labelPhone.setToolTipText("");
-        panelForm.add(labelPhone);
-        panelForm.add(fieldPhone);
+        jPanel1.add(labelPhone);
+        jPanel1.add(fieldPhone);
 
-        btnSave.setBackground(new java.awt.Color(102, 102, 255));
-        btnSave.setForeground(new java.awt.Color(255, 255, 255));
-        btnSave.setText("Save Client");
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdate.setBackground(new java.awt.Color(153, 153, 255));
+        btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
+        btnUpdate.setText("Update Client");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
+                btnUpdateActionPerformed(evt);
             }
         });
-        panelForm.add(btnSave);
+        jPanel1.add(btnUpdate);
 
         btnClear.setBackground(new java.awt.Color(255, 102, 102));
         btnClear.setForeground(new java.awt.Color(255, 255, 255));
@@ -98,9 +88,9 @@ public class JAddClientForm extends javax.swing.JInternalFrame {
                 btnClearActionPerformed(evt);
             }
         });
-        panelForm.add(btnClear);
+        jPanel1.add(btnClear);
 
-        getContentPane().add(panelForm, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         tableClients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -113,16 +103,23 @@ public class JAddClientForm extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        scrollClients.setViewportView(tableClients);
+        jScrollPane1.setViewportView(tableClients);
 
-        getContentPane().add(scrollClients, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        updateClient();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        clearFields();
+    }//GEN-LAST:event_btnClearActionPerformed
     private com.tienda.sventasropa.service.ClientService clientService;
 
-    public JAddClientForm(com.tienda.sventasropa.service.ClientService clientService) {
+    public JEditClientForm(com.tienda.sventasropa.service.ClientService clientService) {
         this();
         this.clientService = clientService;
         initTable();
@@ -135,6 +132,16 @@ public class JAddClientForm extends javax.swing.JInternalFrame {
             new String[]{"ID", "Name", "Email", "Phone"}
         ) {
             public boolean isCellEditable(int row, int col) { return false; }
+        });
+
+        tableClients.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && tableClients.getSelectedRow() != -1) {
+                int row = tableClients.getSelectedRow();
+                fieldId.setText(tableClients.getValueAt(row, 0).toString());
+                fieldName.setText(tableClients.getValueAt(row, 1).toString());
+                fieldEmail.setText(tableClients.getValueAt(row, 2).toString());
+                fieldPhone.setText(tableClients.getValueAt(row, 3).toString());
+            }
         });
     }
 
@@ -150,22 +157,20 @@ public class JAddClientForm extends javax.swing.JInternalFrame {
         }
     }
 
-    private void saveClient() {
+    private void updateClient() {
         try {
             int id       = Integer.parseInt(fieldId.getText().trim());
             String name  = fieldName.getText().trim();
             String email = fieldEmail.getText().trim();
             String phone = fieldPhone.getText().trim();
-            clientService.registrarCliente(id, name, email, phone);
-            loadClients();
-            clearFields();
-            javax.swing.JOptionPane.showMessageDialog(this, "Client saved successfully.");
+            // TODO: conectar cuando Brigitte implemente editClient(id, name, email, phone)
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Edit client coming soon.", "Info",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE);
         } catch (NumberFormatException ex) {
-            javax.swing.JOptionPane.showMessageDialog(this, "ID must be a number.",
-                "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-        } catch (IllegalArgumentException ex) {
-            javax.swing.JOptionPane.showMessageDialog(this, ex.getMessage(),
-                "Validation Error", javax.swing.JOptionPane.WARNING_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Select a client from the table first.", "Error",
+                javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -174,38 +179,22 @@ public class JAddClientForm extends javax.swing.JInternalFrame {
         fieldName.setText("");
         fieldEmail.setText("");
         fieldPhone.setText("");
+        tableClients.clearSelection();
     }
-        
-    private void fieldNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fieldNameActionPerformed
-
-    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        clearFields();
-    }//GEN-LAST:event_btnClearActionPerformed
-
-    private void fieldIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fieldIdActionPerformed
-
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        saveClient();
-    }//GEN-LAST:event_btnSaveActionPerformed
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
-    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JTextField fieldEmail;
     private javax.swing.JTextField fieldId;
     private javax.swing.JTextField fieldName;
     private javax.swing.JTextField fieldPhone;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelEmail;
     private javax.swing.JLabel labelId;
     private javax.swing.JLabel labelName;
     private javax.swing.JLabel labelPhone;
-    private javax.swing.JPanel panelForm;
-    private javax.swing.JScrollPane scrollClients;
     private javax.swing.JTable tableClients;
     // End of variables declaration//GEN-END:variables
 }
