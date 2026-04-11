@@ -4,6 +4,9 @@
  */
 package com.tienda.sventasropa.service;
 
+import com.tienda.sventasropa.interfaces.IClientRepository;
+import com.tienda.sventasropa.model.Client;
+import com.tienda.sventasropa.repository.ClientRepository;
 import java.util.List;
 import com.tienda.sventasropa.interfaces.IClientRepository;
 import com.tienda.sventasropa.interfaces.IClientService;

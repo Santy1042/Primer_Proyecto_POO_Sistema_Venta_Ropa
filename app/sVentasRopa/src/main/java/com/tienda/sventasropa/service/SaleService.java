@@ -1,0 +1,104 @@
+package com.tienda.sventasropa.service;
+
+import com.tienda.sventasropa.interfaces.ISaleRepository;
+import com.tienda.sventasropa.interfaces.IProductRepository;
+import com.tienda.sventasropa.interfaces.ISaleService;
+import com.tienda.sventasropa.model.Client;
+import com.tienda.sventasropa.model.Sale;
+import com.tienda.sventasropa.model.SaleDetail;
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * Lógica de negocio para transacciones de venta.
+ */
+public class SaleService implements ISaleService {
+    private final ISaleRepository repository;
+    private final IProductRepository productRepository;
+
+    public SaleService(ISaleRepository repository, IProductRepository productRepository) {
+        if (repository == null) throw new IllegalArgumentException("El repositorio de ventas no puede ser nulo");
+        if (productRepository == null) throw new IllegalArgumentException("El repositorio de productos no puede ser nulo");
+        this.repository = repository;
+        this.productRepository = productRepository;
+    }
+
+    @Override
+    public Sale createSale(int id, Client client) {
+        if (id <= 0) throw new IllegalArgumentException("El ID de la venta debe ser mayor a 0");
+        if (client == null) throw new IllegalArgumentException("El cliente no puede ser nulo");
+        return new Sale(id, client);
+    }
+
+    @Override
+    public void addProductToSale(Sale sale, SaleDetail detail, int quantity) {
+        if (sale == null) throw new IllegalArgumentException("La venta no puede ser nula");
+        if (detail == null) throw new IllegalArgumentException("El detalle no puede ser nulo");
+        if (quantity <= 0) throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
+        sale.addDetail(detail);
+    }
+    
+    public void agregarProductoAVenta(Sale sale, int productId, int quantity) {
+        if (sale == null) throw new IllegalArgumentException("La venta no puede ser nula");
+        if (productId <= 0) throw new IllegalArgumentException("El ID del producto debe ser mayor a 0");
+        if (quantity <= 0) throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
+        
+        // Validar que el producto existe
+        com.tienda.sventasropa.model.Product product = productRepository.findProductById(productId);
+        if (product == null) {
+            throw new IllegalArgumentException("El producto con ID " + productId + " no existe");
+        }
+        
+        // Validar que hay stock disponible
+        if (product.getProductStock() < quantity) {
+            throw new IllegalArgumentException("Stock insuficiente. Disponible: " + product.getProductStock() + ", solicitado: " + quantity);
+        }
+        
+        // Restar el stock del producto
+        product.setProductStock(product.getProductStock() - quantity);
+        
+        // Crear el detalle y agregarlo a la venta
+        SaleDetail detail = new SaleDetail(productId, product, quantity);
+        sale.addDetail(detail);
+    }
+
+    @Override
+    public void saveSale(Sale sale) {
+        if (sale == null) throw new IllegalArgumentException("La venta no puede ser nula");
+        if (!sale.hasDetails()) throw new IllegalArgumentException("La venta debe tener al menos un artículo");
+        if (sale.getClient() == null) throw new IllegalArgumentException("El cliente no puede ser nulo");
+        repository.save(sale);
+    }
+
+    @Override
+    public void updateSale(Sale sale) {
+        if (sale == null) throw new IllegalArgumentException("La venta no puede ser nula");
+        if (!sale.hasDetails()) throw new IllegalArgumentException("La venta debe tener al menos un artículo");
+        if (sale.getClient() == null) throw new IllegalArgumentException("El cliente no puede ser nulo");
+        repository.update(sale);
+    }
+
+    @Override
+    public void deleteSale(int id) {
+        if (id <= 0) throw new IllegalArgumentException("El ID de la venta debe ser mayor a 0");
+        repository.delete(id);
+    }
+
+    @Override
+    public List<Sale> getAllSales() {
+        return repository.list();
+    }
+
+    @Override
+    public Optional<Sale> findSale(int id) {
+        if (id <= 0) throw new IllegalArgumentException("El ID de la venta debe ser mayor a 0");
+        return repository.findById(id);
+    }
+
+    @Override
+    public double getTotalRevenue() {
+        return repository.list().stream()
+                .mapToDouble(Sale::getTotal)
+                .sum();
+    }
+}
