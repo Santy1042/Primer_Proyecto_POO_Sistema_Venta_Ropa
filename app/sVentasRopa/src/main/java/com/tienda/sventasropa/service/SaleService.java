@@ -31,10 +31,10 @@ public class SaleService implements ISaleService {
     }
 
     @Override
-    public void addProductToSale(Sale sale, SaleDetail detail) {
+    public void addProductToSale(Sale sale, SaleDetail detail, int quantity) {
         if (sale == null) throw new IllegalArgumentException("La venta no puede ser nula");
         if (detail == null) throw new IllegalArgumentException("El detalle no puede ser nulo");
-        
+        if (quantity <= 0) throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
         sale.addDetail(detail);
     }
     
