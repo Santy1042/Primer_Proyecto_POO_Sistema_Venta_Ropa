@@ -9,9 +9,6 @@ import com.tienda.sventasropa.service.SaleService;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * @author marco / Equipo unificado
- */
 public class MainFrame extends JFrame {
 
     private JDesktopPane desktopPane;
@@ -23,12 +20,10 @@ public class MainFrame extends JFrame {
     private ProductRepository productRepo;
 
     public MainFrame() {
-        // Inicializar repositorios
         clientRepo = new ClientRepository();
         productRepo = new ProductRepository();
         SaleRepository saleRepository = new SaleRepository();
 
-        // Inicializar servicios
         clientService = new ClientService(clientRepo);
         productService = new ProductService(productRepo);
         saleService = new SaleService(saleRepository, productRepo);
@@ -50,7 +45,6 @@ public class MainFrame extends JFrame {
         menuBar.setBackground(new Color(40, 40, 65));
         menuBar.setBorderPainted(false);
 
-        // ── MENÚ CLIENTES ──
         JMenu menuClients = new JMenu("   Clients   ");
         menuClients.setForeground(Color.WHITE);
         menuClients.setFont(new Font("Segoe UI", Font.BOLD, 13));
@@ -72,7 +66,6 @@ public class MainFrame extends JFrame {
         menuClients.add(menuViewClients);
         menuBar.add(menuClients);
 
-        // ── MENÚ PRODUCTOS ──
         JMenu menuProducts = new JMenu("   Products   ");
         menuProducts.setForeground(Color.WHITE);
         menuProducts.setFont(new Font("Segoe UI", Font.BOLD, 13));
@@ -94,7 +87,6 @@ public class MainFrame extends JFrame {
         menuProducts.add(menuViewProducts);
         menuBar.add(menuProducts);
 
-        // ── MENÚ VENTAS ──
         JMenu menuSales = new JMenu("   Sales   ");
         menuSales.setForeground(Color.WHITE);
         menuSales.setFont(new Font("Segoe UI", Font.BOLD, 13));
@@ -110,7 +102,6 @@ public class MainFrame extends JFrame {
         menuSales.add(menuViewSales);
         menuBar.add(menuSales);
 
-        // Título y pegamento horizontal
         JLabel titleLabel = new JLabel("   Clothing Store System   ");
         titleLabel.setForeground(new Color(180, 180, 220));
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -130,7 +121,6 @@ public class MainFrame extends JFrame {
         return item;
     }
 
-    // CLIENTES
     private void openClientForm() {
         JAddClientForm frame = new JAddClientForm(clientService);
         desktopPane.add(frame);
@@ -155,7 +145,6 @@ public class MainFrame extends JFrame {
         frame.setVisible(true);
     }
     
-    // PRODUCTOS
     private void openAddProductForm() {
         JAddProductForm frame = new JAddProductForm(productService);
         desktopPane.add(frame);
@@ -180,7 +169,6 @@ public class MainFrame extends JFrame {
         frame.setVisible(true);
     }
 
-    // VENTAS
     private void openCreateSaleForm() {
         JCreateSale frame = new JCreateSale(saleService, clientRepo, productRepo);
         desktopPane.add(frame);

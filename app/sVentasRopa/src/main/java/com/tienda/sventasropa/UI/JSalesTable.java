@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package com.tienda.sventasropa.UI;
 
 import com.tienda.sventasropa.interfaces.ISaleService;
@@ -14,11 +10,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.JOptionPane;
 
-/**
- * JFrame que sera usado cuando el usuario quiera ver las ventas realizadas.
- * Se llamará atravez de un menu MDI
- * @author Christopher
- */
 public class JSalesTable extends javax.swing.JInternalFrame {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -34,7 +25,7 @@ public class JSalesTable extends javax.swing.JInternalFrame {
         this.salesService = salesService;
         initComponents();
         initSalesTable();
-        loadSalesFromService(); // <-- AGREGAR ESTO PARA CARGAR AL INICIAR
+        loadSalesFromService();
     }
 
     public void setSalesService(ISaleService salesService) {
@@ -58,16 +49,16 @@ public class JSalesTable extends javax.swing.JInternalFrame {
     public void loadSalesFromService() {
         try {
             if (salesService == null) {
-                return; // O mostrar el mensaje de error que ya tienes
+                return;
             }
             List<Sale> sales = salesService.getAllSales();
             
             DefaultTableModel model = (DefaultTableModel) salesTable.getModel();
-            model.setRowCount(0); // Limpiar antes de cargar
+            model.setRowCount(0);
 
             if (sales != null && !sales.isEmpty()) {
                 for (Sale sale : sales) {
-                    model.addRow(saleToRow(sale)); // Usar directamente el helper
+                    model.addRow(saleToRow(sale));
                 }
             }
         } catch (Exception e) {
@@ -139,7 +130,6 @@ public class JSalesTable extends javax.swing.JInternalFrame {
             }
         });
         
-        // Ajustar el ancho de las columnas
         TableColumn idColumn = salesTable.getColumnModel().getColumn(0);
         idColumn.setPreferredWidth(60);
         

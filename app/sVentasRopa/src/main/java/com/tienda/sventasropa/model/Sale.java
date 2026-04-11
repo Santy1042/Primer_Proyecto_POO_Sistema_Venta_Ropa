@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tienda.sventasropa.model;
 
 import java.time.LocalDateTime;
@@ -9,9 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Agregado de Venta: contiene el cliente y los detalles de línea.
- */
 public class Sale {
     private int id;
     private Client client;
