@@ -46,6 +46,7 @@ public class JClientTable extends javax.swing.JInternalFrame {
             model.addRow(new Object[]{
                 client.getId(),
                 client.getName(),
+                client.getLastName(),
                 client.getEmail(),
                 client.getPhoneNumber()
             });
@@ -55,9 +56,9 @@ public class JClientTable extends javax.swing.JInternalFrame {
     private void initClientTable() {
         clientTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object[][]{},
-            new String[]{"ID", "Nombre", "Correo", "Teléfono"}
+            new String[]{"ID", "Nombre", "Apellido", "Correo", "Teléfono"}
         ) {
-            boolean[] canEdit = new boolean[]{false, false, false, false};
+            boolean[] canEdit = new boolean[]{false, false, false, false, false};
 
             @Override
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -84,7 +85,7 @@ public class JClientTable extends javax.swing.JInternalFrame {
 
         clientTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object[][]{},
-            new String[]{"ID", "Nombre", "Correo", "Teléfono"}
+            new String[]{"ID", "Nombre", "Apellido", "Correo", "Teléfono"}
         ));
         jPanelShowClient.setViewportView(clientTable);
 
