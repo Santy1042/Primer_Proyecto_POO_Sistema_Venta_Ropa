@@ -4,6 +4,12 @@
  */
 package com.tienda.sventasropa.UI;
 
+import com.tienda.sventasropa.interfaces.ISaleService;
+import com.tienda.sventasropa.model.Sale;
+import com.tienda.sventasropa.model.SaleDetail;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
 
 /**.
@@ -13,9 +19,22 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JSalesTable extends javax.swing.JInternalFrame {
 
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private ISaleService salesService;
+
     public JSalesTable() {
         initComponents();
         initSalesTable();
+    }
+
+    public JSalesTable(ISaleService salesService) {
+        this.salesService = salesService;
+        initComponents();
+        initSalesTable();
+    }
+
+    public void setSalesService(ISaleService salesService) {
+        this.salesService = salesService;
     }
 
     public void loadSales(Object[][] sales) {
@@ -29,15 +48,30 @@ public class JSalesTable extends javax.swing.JInternalFrame {
         }
     }
 
-
     public void loadSalesFromService() {
-        // Placeholder for a real sales service call.
-        // Example:
-        // List<Sale> sales = salesService.getAllSales();
-        // Object[][] rows = sales.stream()
-        //     .map(s -> new Object[]{s.getId(), s.getClientName(), s.getProductName(), s.getQuantity(), s.getTotal(), s.getDate()})
-        //     .toArray(Object[][]::new);
-        // loadSales(rows);
+        if (salesService == null) {
+            throw new IllegalStateException("El servicio de ventas no está configurado");
+        }
+        List<Sale> sales = salesService.getAllSales();
+        Object[][] rows = sales.stream()
+                .map(this::saleToRow)
+                .toArray(Object[][]::new);
+        loadSales(rows);
+    }
+
+    private Object[] saleToRow(Sale sale) {
+        String products = sale.getDetails().stream()
+                .map(detail -> detail.getProduct().getProductName() + " x" + detail.getQuantity())
+                .collect(Collectors.joining(", "));
+        int quantity = sale.getDetails().stream().mapToInt(SaleDetail::getQuantity).sum();
+        return new Object[] {
+            sale.getId(),
+            sale.getClient().getName(),
+            products.isEmpty() ? "N/A" : products,
+            quantity,
+            sale.getTotal(),
+            sale.getDate().format(DATE_FORMATTER)
+        };
     }
 
     private void initSalesTable() {
