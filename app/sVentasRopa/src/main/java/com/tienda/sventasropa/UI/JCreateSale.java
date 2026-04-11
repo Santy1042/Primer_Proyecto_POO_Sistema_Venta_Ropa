@@ -111,11 +111,11 @@ public class JCreateSale extends javax.swing.JInternalFrame {
                 return;
             }
 
-            // Lógica de negocio
             SaleDetail detail = new SaleDetail(selectedProduct.getProductId(), selectedProduct, quantity);
             currentSale.addDetail(detail);
+            
+            selectedProduct.setProductStock(selectedProduct.getProductStock() - quantity);
 
-            // Actualizar Tabla
             DefaultTableModel model = (DefaultTableModel) saleDetailsTable.getModel();
             model.addRow(new Object[]{
                 selectedProduct.getProductName(),
