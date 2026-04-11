@@ -26,7 +26,7 @@ public class JAddClientForm extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelForm = new javax.swing.JPanel();
+        panelTop = new javax.swing.JPanel();
         labelId = new javax.swing.JLabel();
         fieldId = new javax.swing.JTextField();
         labelName = new javax.swing.JLabel();
@@ -47,38 +47,38 @@ public class JAddClientForm extends javax.swing.JInternalFrame {
         setTitle("Client Managment");
         setPreferredSize(new java.awt.Dimension(800, 500));
 
-        panelForm.setBackground(new java.awt.Color(0, 204, 204));
-        panelForm.setBorder(javax.swing.BorderFactory.createTitledBorder("Client Data"));
-        panelForm.setLayout(new java.awt.GridLayout(5, 2, 8, 8));
+        panelTop.setBackground(new java.awt.Color(0, 204, 204));
+        panelTop.setBorder(javax.swing.BorderFactory.createTitledBorder("Client Data"));
+        panelTop.setLayout(new java.awt.GridLayout(5, 2, 8, 8));
 
         labelId.setText("ID:");
-        panelForm.add(labelId);
+        panelTop.add(labelId);
 
         fieldId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldIdActionPerformed(evt);
             }
         });
-        panelForm.add(fieldId);
+        panelTop.add(fieldId);
 
         labelName.setText("Name:");
-        panelForm.add(labelName);
+        panelTop.add(labelName);
 
         fieldName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldNameActionPerformed(evt);
             }
         });
-        panelForm.add(fieldName);
+        panelTop.add(fieldName);
 
         labelEmail.setText("Email:");
-        panelForm.add(labelEmail);
-        panelForm.add(fieldEmail);
+        panelTop.add(labelEmail);
+        panelTop.add(fieldEmail);
 
         labelPhone.setText("Phone:");
         labelPhone.setToolTipText("");
-        panelForm.add(labelPhone);
-        panelForm.add(fieldPhone);
+        panelTop.add(labelPhone);
+        panelTop.add(fieldPhone);
 
         btnSave.setBackground(new java.awt.Color(102, 102, 255));
         btnSave.setForeground(new java.awt.Color(255, 255, 255));
@@ -88,7 +88,7 @@ public class JAddClientForm extends javax.swing.JInternalFrame {
                 btnSaveActionPerformed(evt);
             }
         });
-        panelForm.add(btnSave);
+        panelTop.add(btnSave);
 
         btnClear.setBackground(new java.awt.Color(255, 102, 102));
         btnClear.setForeground(new java.awt.Color(255, 255, 255));
@@ -98,9 +98,9 @@ public class JAddClientForm extends javax.swing.JInternalFrame {
                 btnClearActionPerformed(evt);
             }
         });
-        panelForm.add(btnClear);
+        panelTop.add(btnClear);
 
-        getContentPane().add(panelForm, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(panelTop, java.awt.BorderLayout.PAGE_START);
 
         tableClients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -204,7 +204,7 @@ public class JAddClientForm extends javax.swing.JInternalFrame {
     private javax.swing.JLabel labelId;
     private javax.swing.JLabel labelName;
     private javax.swing.JLabel labelPhone;
-    private javax.swing.JPanel panelForm;
+    private javax.swing.JPanel panelTop;
     private javax.swing.JScrollPane scrollClients;
     private javax.swing.JTable tableClients;
     // End of variables declaration//GEN-END:variables

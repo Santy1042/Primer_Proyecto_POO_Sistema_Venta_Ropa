@@ -51,23 +51,42 @@ public class MainFrame extends JFrame {
         menuBar.setBackground(new Color(40, 40, 65));
         menuBar.setBorderPainted(false);
 
-        JMenu menuModules = new JMenu("  Modules  ");
-        menuModules.setForeground(Color.WHITE);
-        menuModules.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        JMenu menuClients = new JMenu("  Clients  ");
+        menuClients.setForeground(Color.WHITE);
+        menuClients.setFont(new Font("Segoe UI", Font.BOLD, 13));
 
-        JMenuItem menuClients  = createMenuItem("  Clients");
-        JMenuItem menuProducts = createMenuItem("  Products");
-        JMenuItem menuSales    = createMenuItem("  Sales");
+        JMenuItem menuAddClient    = createMenuItem("  Register Client");
+        JMenuItem menuEditClient   = createMenuItem("  Edit Client");
+        JMenuItem menuDeleteClient = createMenuItem("  Delete Client");
 
-        menuClients.addActionListener(e  -> openClientForm());
-        menuProducts.addActionListener(e -> openProductForm());
-        menuSales.addActionListener(e    -> openSaleForm());
+        menuAddClient.addActionListener(e    -> openClientForm());
+        menuEditClient.addActionListener(e   -> openEditClientForm());
+        menuDeleteClient.addActionListener(e -> openDeleteClientForm());
 
-        menuModules.add(menuClients);
-        menuModules.add(menuProducts);
-        menuModules.addSeparator();
-        menuModules.add(menuSales);
-        menuBar.add(menuModules);
+        menuClients.add(menuAddClient);
+        menuClients.add(menuEditClient);
+        menuClients.add(menuDeleteClient);
+        menuBar.add(menuClients);
+
+        // ── Products menu ──
+        JMenu menuProducts = new JMenu("  Products  ");
+        menuProducts.setForeground(Color.WHITE);
+        menuProducts.setFont(new Font("Segoe UI", Font.BOLD, 13));
+
+        JMenuItem menuAddProduct = createMenuItem("  Products");
+        menuAddProduct.addActionListener(e -> openProductForm());
+        menuProducts.add(menuAddProduct);
+        menuBar.add(menuProducts);
+
+        // ── Sales menu ──
+        JMenu menuSales = new JMenu("  Sales  ");
+        menuSales.setForeground(Color.WHITE);
+        menuSales.setFont(new Font("Segoe UI", Font.BOLD, 13));
+
+        JMenuItem menuAddSale = createMenuItem("  Sales");
+        menuAddSale.addActionListener(e -> openSaleForm());
+        menuSales.add(menuAddSale);
+        menuBar.add(menuSales);
 
         JLabel titleLabel = new JLabel("   Clothing Store System   ");
         titleLabel.setForeground(new Color(180, 180, 220));
@@ -93,6 +112,18 @@ public class MainFrame extends JFrame {
         frame.setVisible(true);
     }
 
+    private void openEditClientForm() {
+        JEditClientForm frame = new JEditClientForm(clientService);
+        desktopPane.add(frame);
+        frame.setVisible(true);
+    }
+
+    private void openDeleteClientForm() {
+        JDeleteClientForm frame = new JDeleteClientForm(clientService);
+        desktopPane.add(frame);
+        frame.setVisible(true);
+    }
+    
     private void openProductForm() {
         JProductForm frame = new JProductForm(productService);
         desktopPane.add(frame);
@@ -104,4 +135,5 @@ public class MainFrame extends JFrame {
         desktopPane.add(frame);
         frame.setVisible(true);
     }
+
 }

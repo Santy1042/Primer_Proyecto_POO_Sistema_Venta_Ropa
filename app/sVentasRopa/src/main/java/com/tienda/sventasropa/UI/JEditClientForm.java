@@ -26,7 +26,7 @@ public class JEditClientForm extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        panelTop = new javax.swing.JPanel();
         labelId = new javax.swing.JLabel();
         fieldId = new javax.swing.JTextField();
         labelName = new javax.swing.JLabel();
@@ -37,7 +37,7 @@ public class JEditClientForm extends javax.swing.JInternalFrame {
         fieldPhone = new javax.swing.JTextField();
         btnUpdate = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scrollClients = new javax.swing.JScrollPane();
         tableClients = new javax.swing.JTable();
 
         setIconifiable(true);
@@ -47,28 +47,28 @@ public class JEditClientForm extends javax.swing.JInternalFrame {
         setPreferredSize(new java.awt.Dimension(700, 480));
         setRequestFocusEnabled(false);
 
-        jPanel1.setBackground(new java.awt.Color(102, 255, 102));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Edit Client Data"));
-        jPanel1.setLayout(new java.awt.GridLayout(5, 2, 8, 8));
+        panelTop.setBackground(new java.awt.Color(102, 255, 102));
+        panelTop.setBorder(javax.swing.BorderFactory.createTitledBorder("Edit Client Data"));
+        panelTop.setLayout(new java.awt.GridLayout(5, 2, 8, 8));
 
         labelId.setText("ID:");
-        jPanel1.add(labelId);
+        panelTop.add(labelId);
 
         fieldId.setEditable(false);
         fieldId.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(fieldId);
+        panelTop.add(fieldId);
 
         labelName.setText("Name:");
-        jPanel1.add(labelName);
-        jPanel1.add(fieldName);
+        panelTop.add(labelName);
+        panelTop.add(fieldName);
 
         labelEmail.setText("Email:");
-        jPanel1.add(labelEmail);
-        jPanel1.add(fieldEmail);
+        panelTop.add(labelEmail);
+        panelTop.add(fieldEmail);
 
         labelPhone.setText("Phone:");
-        jPanel1.add(labelPhone);
-        jPanel1.add(fieldPhone);
+        panelTop.add(labelPhone);
+        panelTop.add(fieldPhone);
 
         btnUpdate.setBackground(new java.awt.Color(153, 153, 255));
         btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
@@ -78,7 +78,7 @@ public class JEditClientForm extends javax.swing.JInternalFrame {
                 btnUpdateActionPerformed(evt);
             }
         });
-        jPanel1.add(btnUpdate);
+        panelTop.add(btnUpdate);
 
         btnClear.setBackground(new java.awt.Color(255, 102, 102));
         btnClear.setForeground(new java.awt.Color(255, 255, 255));
@@ -88,9 +88,9 @@ public class JEditClientForm extends javax.swing.JInternalFrame {
                 btnClearActionPerformed(evt);
             }
         });
-        jPanel1.add(btnClear);
+        panelTop.add(btnClear);
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(panelTop, java.awt.BorderLayout.PAGE_START);
 
         tableClients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -103,9 +103,9 @@ public class JEditClientForm extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tableClients);
+        scrollClients.setViewportView(tableClients);
 
-        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(scrollClients, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -189,12 +189,12 @@ public class JEditClientForm extends javax.swing.JInternalFrame {
     private javax.swing.JTextField fieldId;
     private javax.swing.JTextField fieldName;
     private javax.swing.JTextField fieldPhone;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelEmail;
     private javax.swing.JLabel labelId;
     private javax.swing.JLabel labelName;
     private javax.swing.JLabel labelPhone;
+    private javax.swing.JPanel panelTop;
+    private javax.swing.JScrollPane scrollClients;
     private javax.swing.JTable tableClients;
     // End of variables declaration//GEN-END:variables
 }
