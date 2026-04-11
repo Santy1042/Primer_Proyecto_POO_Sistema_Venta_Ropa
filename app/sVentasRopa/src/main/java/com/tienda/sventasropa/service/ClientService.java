@@ -11,7 +11,7 @@ import com.tienda.sventasropa.model.Client;
 
 /**
  * Servicio de lógica de negocio para clientes
- * Valida y gestiona operaciones de clientes 
+ * Valida y gestiona operaciones de clientes
  */
 public class ClientService implements IClientService {
     private final IClientRepository clientRepository;

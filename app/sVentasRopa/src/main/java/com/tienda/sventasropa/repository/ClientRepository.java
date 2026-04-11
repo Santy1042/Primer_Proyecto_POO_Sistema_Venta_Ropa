@@ -6,15 +6,12 @@ package com.tienda.sventasropa.repository;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.tienda.sventasropa.interfaces.IClientRepository;
 import com.tienda.sventasropa.model.Client;
 
 /**
  * Implementación del repositorio de clientes
  * Gestiona la persistencia de datos de clientes en memoria
- * 
- * @author Santy
  */
 public class ClientRepository implements IClientRepository {
     private final List<Client> clients;
