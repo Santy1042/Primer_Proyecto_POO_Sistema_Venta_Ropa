@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Christopher
+ * @author Christopher.
  */
 public class JCreateSale extends javax.swing.JInternalFrame {
 
