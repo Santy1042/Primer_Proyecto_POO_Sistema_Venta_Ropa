@@ -10,13 +10,6 @@ import com.tienda.sventasropa.model.SaleDetail;
 import java.util.List;
 import java.util.Optional;
 
-<<<<<<< HEAD
-=======
-/**
- * Lógica de negocio para transacciones de venta.
- * Gestiona la creación, edición y eliminación de ventas.
- */
->>>>>>> origin/develop
 public class SaleService implements ISaleService {
     private final ISaleRepository repository;
     private final IProductRepository productRepository;
@@ -45,14 +38,14 @@ public class SaleService implements ISaleService {
     }
 
     @Override
-    public void addProductToSale(Sale sale, int productId, int quantity) {
+    public void addProductToSale(Sale sale, SaleDetail saledetail, int quantity) {
         if (sale == null) throw new IllegalArgumentException("La venta no puede ser nula");
-        if (productId <= 0) throw new IllegalArgumentException("El ID del producto debe ser mayor a 0");
+        if (saledetail == null) throw new IllegalArgumentException("El detalle de venta no puede ser nulo");
         if (quantity <= 0) throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
-        
-        com.tienda.sventasropa.model.Product product = productRepository.findProductById(productId);
+
+        com.tienda.sventasropa.model.Product product = productRepository.findProductById(saledetail.getProductId());
         if (product == null) {
-            throw new IllegalArgumentException("El producto con ID " + productId + " no existe");
+            throw new IllegalArgumentException("El producto con ID " + saledetail.getProductId() + " no existe");
         }
         
         if (product.getProductStock() < quantity) {
@@ -61,7 +54,7 @@ public class SaleService implements ISaleService {
         
         product.setProductStock(product.getProductStock() - quantity);
         
-        SaleDetail detail = new SaleDetail(productId, product, quantity);
+        SaleDetail detail = new SaleDetail(saledetail.getProductId(), product, quantity);
         sale.addDetail(detail);
     }
 

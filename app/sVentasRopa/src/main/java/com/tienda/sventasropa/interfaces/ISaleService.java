@@ -6,12 +6,6 @@ import com.tienda.sventasropa.model.SaleDetail;
 import java.util.List;
 import java.util.Optional;
 
-<<<<<<< HEAD
-=======
-/**
- * @author Apolo
- */
->>>>>>> origin/develop
 public interface ISaleService {
     Sale createSale(int id, com.tienda.sventasropa.model.Client client);
     void addProductToSale(Sale sale, SaleDetail detail, int quantity);

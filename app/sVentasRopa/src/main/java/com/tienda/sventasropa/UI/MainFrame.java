@@ -26,7 +26,7 @@ public class MainFrame extends JFrame {
 
         clientService = new ClientService(clientRepo);
         productService = new ProductService(productRepo);
-        saleService = new SaleService(saleRepository, productRepo);
+        saleService = new SaleService(saleRepository, productRepo, clientService);
 
         initComponents();
     }

@@ -51,10 +51,6 @@ public class JClientTable extends javax.swing.JInternalFrame {
             model.addRow(new Object[]{
                 client.getId(),
                 client.getName(),
-<<<<<<< HEAD
-=======
-                client.getLastName(),
->>>>>>> origin/develop
                 client.getEmail(),
                 client.getPhoneNumber()
             });
@@ -64,15 +60,9 @@ public class JClientTable extends javax.swing.JInternalFrame {
     private void initClientTable() {
         clientTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object[][]{},
-<<<<<<< HEAD
             new String[]{"ID", "Nombre", "Correo", "Teléfono"}
         ) {
             boolean[] canEdit = new boolean[]{false, false, false, false};
-=======
-            new String[]{"ID", "Nombre", "Apellido", "Correo", "Teléfono"}
-        ) {
-            boolean[] canEdit = new boolean[]{false, false, false, false, false};
->>>>>>> origin/develop
 
             @Override
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -86,11 +76,7 @@ public class JClientTable extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         Background = new javax.swing.JPanel();
-<<<<<<< HEAD
         Scroll = new javax.swing.JScrollPane();
-=======
-        jPanelShowClient = new javax.swing.JScrollPane();
->>>>>>> origin/develop
         clientTable = new javax.swing.JTable();
 
         setClosable(true);
@@ -103,33 +89,19 @@ public class JClientTable extends javax.swing.JInternalFrame {
 
         clientTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object[][]{},
-<<<<<<< HEAD
             new String[]{"ID", "Nombre", "Correo", "Teléfono"}
         ));
         Scroll.setViewportView(clientTable);
-=======
-            new String[]{"ID", "Nombre", "Apellido", "Correo", "Teléfono"}
-        ));
-        jPanelShowClient.setViewportView(clientTable);
->>>>>>> origin/develop
 
         javax.swing.GroupLayout BackgroundLayout = new javax.swing.GroupLayout(Background);
         Background.setLayout(BackgroundLayout);
         BackgroundLayout.setHorizontalGroup(
             BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-<<<<<<< HEAD
             .addComponent(Scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
         );
         BackgroundLayout.setVerticalGroup(
             BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(Scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
-=======
-            .addComponent(jPanelShowClient, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
-        );
-        BackgroundLayout.setVerticalGroup(
-            BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelShowClient, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
->>>>>>> origin/develop
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -152,10 +124,6 @@ public class JClientTable extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Background;
     private javax.swing.JTable clientTable;
-<<<<<<< HEAD
     private javax.swing.JScrollPane Scroll;
-=======
-    private javax.swing.JScrollPane jPanelShowClient;
->>>>>>> origin/develop
     // End of variables declaration//GEN-END:variables
 }

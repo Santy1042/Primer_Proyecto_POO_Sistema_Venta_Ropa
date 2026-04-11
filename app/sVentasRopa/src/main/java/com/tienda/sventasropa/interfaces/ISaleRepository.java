@@ -4,12 +4,6 @@ import com.tienda.sventasropa.model.Sale;
 import java.util.List;
 import java.util.Optional;
 
-<<<<<<< HEAD
-=======
-/**
- * @author Apolo
- */
->>>>>>> origin/develop
 public interface ISaleRepository {
     void save(Sale sale);
     List<Sale> list();

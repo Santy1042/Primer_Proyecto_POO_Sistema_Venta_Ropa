@@ -5,14 +5,9 @@
 package com.tienda.sventasropa.interfaces;
 
 
-<<<<<<< HEAD
 import java.util.List;
 
 import com.tienda.sventasropa.model.Client;
-=======
-import com.tienda.sventasropa.model.Client;
-import java.util.List;
->>>>>>> origin/develop
 
 /**
  *
