@@ -18,17 +18,20 @@ public class MainFrame extends JFrame {
     private ClientService clientService;
     private ProductService productService;
     private SaleService saleService;
+    
+    private ClientRepository clientRepo;
+    private ProductRepository productRepo;
 
     public MainFrame() {
-        // Inicializar repositorios (Datos)
-        ClientRepository clientRepository   = new ClientRepository();
-        ProductRepository productRepository = new ProductRepository();
-        SaleRepository saleRepository       = new SaleRepository();
+        // Inicializar repositorios
+        clientRepo = new ClientRepository();
+        productRepo = new ProductRepository();
+        SaleRepository saleRepository = new SaleRepository();
 
-        // Inicializar servicios (Lógica)
-        clientService  = new ClientService(clientRepository);
-        productService = new ProductService(productRepository);
-        saleService    = new SaleService(saleRepository, productRepository);
+        // Inicializar servicios
+        clientService = new ClientService(clientRepo);
+        productService = new ProductService(productRepo);
+        saleService = new SaleService(saleRepository, productRepo);
 
         initComponents();
     }
@@ -37,75 +40,87 @@ public class MainFrame extends JFrame {
         setTitle("Clothing Store - Management System");
         setSize(1100, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Centrar en la pantalla
+        setLocationRelativeTo(null);
 
-        // Configurar DesktopPane (Fondo)
         desktopPane = new JDesktopPane();
         desktopPane.setBackground(new Color(30, 30, 50));
         setContentPane(desktopPane);
 
-        // Configurar Barra de Menú
         JMenuBar menuBar = new JMenuBar();
         menuBar.setBackground(new Color(40, 40, 65));
         menuBar.setBorderPainted(false);
 
         // ── MENÚ CLIENTES ──
-        JMenu menuClients = new JMenu("  Clients  ");
+        JMenu menuClients = new JMenu("   Clients   ");
         menuClients.setForeground(Color.WHITE);
         menuClients.setFont(new Font("Segoe UI", Font.BOLD, 13));
 
-        JMenuItem menuAddClient    = createMenuItem("  Register Client");
-        JMenuItem menuEditClient   = createMenuItem("  Edit Client");
-        JMenuItem menuDeleteClient = createMenuItem("  Delete Client");
+        JMenuItem menuAddClient = createMenuItem("   Register Client");
+        JMenuItem menuEditClient = createMenuItem("   Edit Client");
+        JMenuItem menuDeleteClient = createMenuItem("   Delete Client");
+        JMenuItem menuViewClients = createMenuItem("   View All Clients");
 
-        menuAddClient.addActionListener(e    -> openClientForm());
-        menuEditClient.addActionListener(e   -> openEditClientForm());
+        menuAddClient.addActionListener(e -> openClientForm());
+        menuEditClient.addActionListener(e -> openEditClientForm());
         menuDeleteClient.addActionListener(e -> openDeleteClientForm());
+        menuViewClients.addActionListener(e -> openClientsTable());
 
         menuClients.add(menuAddClient);
         menuClients.add(menuEditClient);
         menuClients.add(menuDeleteClient);
+        menuClients.addSeparator();
+        menuClients.add(menuViewClients);
         menuBar.add(menuClients);
 
-        // ── MENÚ PRODUCTOS (Unificado con lo anterior) ──
-        JMenu menuProducts = new JMenu("  Products  ");
+        // ── MENÚ PRODUCTOS ──
+        JMenu menuProducts = new JMenu("   Products   ");
         menuProducts.setForeground(Color.WHITE);
         menuProducts.setFont(new Font("Segoe UI", Font.BOLD, 13));
 
-        JMenuItem menuAddProduct    = createMenuItem("  Add Product");
-        JMenuItem menuEditProduct   = createMenuItem("  Edit Product");
-        JMenuItem menuDeleteProduct = createMenuItem("  Delete Product");
-        JMenuItem menuViewProducts  = createMenuItem("  View All Products");
+        JMenuItem menuAddProduct = createMenuItem("   Add Product");
+        JMenuItem menuEditProduct = createMenuItem("   Edit Product");
+        JMenuItem menuDeleteProduct = createMenuItem("   Delete Product");
+        JMenuItem menuViewProducts = createMenuItem("   View All Products");
 
-        menuAddProduct.addActionListener(e    -> openAddProductForm());
-        menuEditProduct.addActionListener(e   -> openEditProductForm());
+        menuAddProduct.addActionListener(e -> openAddProductForm());
+        menuEditProduct.addActionListener(e -> openEditProductForm());
         menuDeleteProduct.addActionListener(e -> openDeleteProductForm());
-        menuViewProducts.addActionListener(e  -> openProductsTable());
+        menuViewProducts.addActionListener(e -> openProductsTable());
 
         menuProducts.add(menuAddProduct);
         menuProducts.add(menuEditProduct);
         menuProducts.add(menuDeleteProduct);
-        menuProducts.addSeparator(); // Separador visual
+        menuProducts.addSeparator();
         menuProducts.add(menuViewProducts);
         menuBar.add(menuProducts);
 
         // ── MENÚ VENTAS ──
-        JMenu menuSales = new JMenu("  Sales  ");
+        JMenu menuSales = new JMenu("   Sales   ");
         menuSales.setForeground(Color.WHITE);
         menuSales.setFont(new Font("Segoe UI", Font.BOLD, 13));
 
-        // ── TÍTULO DE LA APLICACIÓN AL FINAL ──
+        JMenuItem menuCreateSale = createMenuItem("   Create New Sale");
+        JMenuItem menuViewSales = createMenuItem("   View Sales History");
+
+        menuCreateSale.addActionListener(e -> openCreateSaleForm());
+        menuViewSales.addActionListener(e -> openSalesTable());
+        
+        menuSales.add(menuCreateSale);
+        menuSales.addSeparator();
+        menuSales.add(menuViewSales);
+        menuBar.add(menuSales);
+
+        // Título y pegamento horizontal
         JLabel titleLabel = new JLabel("   Clothing Store System   ");
         titleLabel.setForeground(new Color(180, 180, 220));
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        menuBar.add(Box.createHorizontalGlue()); // Empuja el título a la derecha
+        menuBar.add(Box.createHorizontalGlue());
         menuBar.add(titleLabel);
-        menuBar.add(Box.createRigidArea(new Dimension(15, 0))); // Margen derecho
+        menuBar.add(Box.createRigidArea(new Dimension(15, 0)));
         
         setJMenuBar(menuBar);
     }
 
-    // Método auxiliar para estilizar los items del menú
     private JMenuItem createMenuItem(String text) {
         JMenuItem item = new JMenuItem(text);
         item.setBackground(new Color(50, 50, 75));
@@ -115,9 +130,7 @@ public class MainFrame extends JFrame {
         return item;
     }
 
-    // ==========================================
-    // MÉTODOS PARA ABRIR FORMULARIOS CLIENTES
-    // ==========================================
+    // CLIENTES
     private void openClientForm() {
         JAddClientForm frame = new JAddClientForm(clientService);
         desktopPane.add(frame);
@@ -135,10 +148,14 @@ public class MainFrame extends JFrame {
         desktopPane.add(frame);
         frame.setVisible(true);
     }
+
+    private void openClientsTable() {
+        JClientTable frame = new JClientTable(clientService);
+        desktopPane.add(frame);
+        frame.setVisible(true);
+    }
     
-    // ==========================================
-    // MÉTODOS PARA ABRIR FORMULARIOS PRODUCTOS
-    // ==========================================
+    // PRODUCTOS
     private void openAddProductForm() {
         JAddProductForm frame = new JAddProductForm(productService);
         desktopPane.add(frame);
@@ -163,13 +180,19 @@ public class MainFrame extends JFrame {
         frame.setVisible(true);
     }
 
-    // ==========================================
-    // MÉTODOS PARA ABRIR FORMULARIOS VENTAS
-    // ==========================================
+    // VENTAS
+    private void openCreateSaleForm() {
+        JCreateSale frame = new JCreateSale(saleService, clientRepo, productRepo);
+        desktopPane.add(frame);
+        frame.setVisible(true);
+    }
 
-    // ==========================================
-    // MÉTODO MAIN
-    // ==========================================
+    private void openSalesTable() {
+        JSalesTable frame = new JSalesTable(saleService);
+        desktopPane.add(frame);
+        frame.setVisible(true);
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             new MainFrame().setVisible(true);

@@ -5,6 +5,7 @@
 package com.tienda.sventasropa.service;
 
 import com.tienda.sventasropa.interfaces.IClientRepository;
+import com.tienda.sventasropa.interfaces.IClientService;
 import com.tienda.sventasropa.model.Client;
 import com.tienda.sventasropa.repository.ClientRepository;
 import java.util.List;
@@ -13,8 +14,8 @@ import com.tienda.sventasropa.interfaces.IClientService;
 import com.tienda.sventasropa.model.Client;
 
 /**
- *
- * @author Santy
+ * Servicio de lógica de negocio para clientes
+ * Valida y gestiona operaciones de clientes
  */
 public class ClientService implements IClientService {
     private final IClientRepository clientRepository;

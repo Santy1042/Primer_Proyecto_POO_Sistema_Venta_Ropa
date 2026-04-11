@@ -71,7 +71,7 @@ public class JClientTable extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         Background = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        Scroll = new javax.swing.JScrollPane();
         clientTable = new javax.swing.JTable();
 
         setClosable(true);
@@ -86,17 +86,17 @@ public class JClientTable extends javax.swing.JInternalFrame {
             new Object[][]{},
             new String[]{"ID", "Nombre", "Correo", "Teléfono"}
         ));
-        jScrollPane1.setViewportView(clientTable);
+        Scroll.setViewportView(clientTable);
 
         javax.swing.GroupLayout BackgroundLayout = new javax.swing.GroupLayout(Background);
         Background.setLayout(BackgroundLayout);
         BackgroundLayout.setHorizontalGroup(
             BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+            .addComponent(Scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
         );
         BackgroundLayout.setVerticalGroup(
             BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+            .addComponent(Scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -119,6 +119,6 @@ public class JClientTable extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Background;
     private javax.swing.JTable clientTable;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane Scroll;
     // End of variables declaration//GEN-END:variables
 }

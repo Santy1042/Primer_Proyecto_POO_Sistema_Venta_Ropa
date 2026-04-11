@@ -5,6 +5,8 @@
 package com.tienda.sventasropa.interfaces;
 
 
+import java.util.List;
+
 import com.tienda.sventasropa.model.Client;
 
 /**
@@ -16,4 +18,5 @@ public interface IClientService {
     void editClient(int id, Client datosNuevos);
     void deleteClient(int id);
     Client findClientById(int id);
+    List<Client> getAllClients();
 }
