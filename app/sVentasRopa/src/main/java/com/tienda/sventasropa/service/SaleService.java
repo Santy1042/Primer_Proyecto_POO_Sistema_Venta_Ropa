@@ -3,6 +3,7 @@ package com.tienda.sventasropa.service;
 import com.tienda.sventasropa.interfaces.ISaleRepository;
 import com.tienda.sventasropa.interfaces.IProductRepository;
 import com.tienda.sventasropa.interfaces.ISaleService;
+import com.tienda.sventasropa.interfaces.IClientService;
 import com.tienda.sventasropa.model.Client;
 import com.tienda.sventasropa.model.Sale;
 import com.tienda.sventasropa.model.SaleDetail;
@@ -11,34 +12,37 @@ import java.util.Optional;
 
 /**
  * Lógica de negocio para transacciones de venta.
+ * Gestiona la creación, edición y eliminación de ventas.
  */
 public class SaleService implements ISaleService {
     private final ISaleRepository repository;
     private final IProductRepository productRepository;
+    private final IClientService clientService;
 
-    public SaleService(ISaleRepository repository, IProductRepository productRepository) {
+    public SaleService(ISaleRepository repository, IProductRepository productRepository, IClientService clientService) {
         if (repository == null) throw new IllegalArgumentException("El repositorio de ventas no puede ser nulo");
         if (productRepository == null) throw new IllegalArgumentException("El repositorio de productos no puede ser nulo");
+        if (clientService == null) throw new IllegalArgumentException("El servicio de clientes no puede ser nulo");
         this.repository = repository;
         this.productRepository = productRepository;
+        this.clientService = clientService;
     }
 
     @Override
     public Sale createSale(int id, Client client) {
         if (id <= 0) throw new IllegalArgumentException("El ID de la venta debe ser mayor a 0");
         if (client == null) throw new IllegalArgumentException("El cliente no puede ser nulo");
-        return new Sale(id, client);
+        
+        // Validar que el cliente existe en el sistema
+        Client clientValidated = clientService.findClientById(client.getId());
+        if (clientValidated == null) {
+            throw new IllegalArgumentException("El cliente con ID " + client.getId() + " no existe en el sistema");
+        }
+        return new Sale(id, clientValidated);
     }
 
     @Override
-    public void addProductToSale(Sale sale, SaleDetail detail) {
-        if (sale == null) throw new IllegalArgumentException("La venta no puede ser nula");
-        if (detail == null) throw new IllegalArgumentException("El detalle no puede ser nulo");
-        
-        sale.addDetail(detail);
-    }
-    
-    public void agregarProductoAVenta(Sale sale, int productId, int quantity) {
+    public void addProductToSale(Sale sale, int productId, int quantity) {
         if (sale == null) throw new IllegalArgumentException("La venta no puede ser nula");
         if (productId <= 0) throw new IllegalArgumentException("El ID del producto debe ser mayor a 0");
         if (quantity <= 0) throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
