@@ -10,7 +10,7 @@ import com.tienda.sventasropa.model.Client;
 
 /**
  *
- * @author Santy
+ * 
  */
 public interface IClientRepository {
     boolean registerClient (Client cliente);
