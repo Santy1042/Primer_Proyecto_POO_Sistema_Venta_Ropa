@@ -9,7 +9,7 @@ import com.tienda.sventasropa.model.Client;
 
 /**
  *
- * @author ASUS
+ *
  */
 public interface IClientService {
     void registerClient(Client cliente);
