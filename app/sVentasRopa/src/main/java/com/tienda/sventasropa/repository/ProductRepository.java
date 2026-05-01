@@ -26,7 +26,7 @@ public class ProductRepository implements IProductRepository {
 
     @Override
     public boolean deleteProduct(int productId) {
-        if (productId >= 0) {
+        if (productId > 0) {
             boolean exists = false;
             for (Product product : products) {
                 if (product.getProductId() == productId) {
@@ -48,7 +48,7 @@ public class ProductRepository implements IProductRepository {
         if (updatedProduct == null) {
             throw new IllegalArgumentException("El producto actualizado no puede ser nulo.");
         }
-        if (productId >= 0) {
+        if (productId > 0) {
             Product existing = findProductById(productId);
             if (existing == null) return false;
 
@@ -64,7 +64,7 @@ public class ProductRepository implements IProductRepository {
 
     @Override
     public Product findProductById(int productId) {
-        if (productId >= 0) {
+        if (productId > 0) {
             for (Product product : products) {
                 if (product.getProductId() == productId) {
                     return product;
