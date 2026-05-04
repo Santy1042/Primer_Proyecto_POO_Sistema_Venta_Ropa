@@ -38,9 +38,11 @@ public class SaleService implements ISaleService {
     }
 
     @Override
-    public void addProductToSale(Sale sale, SaleDetail saledetail, int quantity) {
+    public void addProductToSale(Sale sale, SaleDetail saledetail) {
         if (sale == null) throw new IllegalArgumentException("La venta no puede ser nula");
         if (saledetail == null) throw new IllegalArgumentException("El detalle de venta no puede ser nulo");
+        
+        int quantity = saledetail.getQuantity();
         if (quantity <= 0) throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
 
         com.tienda.sventasropa.model.Product product = productRepository.findProductById(saledetail.getProductId());
@@ -53,9 +55,7 @@ public class SaleService implements ISaleService {
         }
         
         product.setProductStock(product.getProductStock() - quantity);
-        
-        SaleDetail detail = new SaleDetail(saledetail.getProductId(), product, quantity);
-        sale.addDetail(detail);
+        sale.addDetail(saledetail);
     }
 
     @Override
