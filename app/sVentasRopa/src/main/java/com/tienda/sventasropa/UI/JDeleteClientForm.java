@@ -19,6 +19,7 @@ public class JDeleteClientForm extends javax.swing.JInternalFrame {
         this.clientService = clientService;
         initTable();
         loadClients();
+        UITheme.apply(this);
     }
 
     private void initTable() {

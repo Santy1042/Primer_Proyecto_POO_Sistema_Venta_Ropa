@@ -32,6 +32,7 @@ public class JClientTable extends javax.swing.JInternalFrame {
         this();
         this.clientService = clientService;
         loadClients();
+        UITheme.apply(this);
     }
 
     public void setClientService(ClientService clientService) {

@@ -3,6 +3,7 @@ package com.tienda.sventasropa.UI;
 import com.tienda.sventasropa.model.Product;
 import com.tienda.sventasropa.service.ProductService;
 import javax.swing.JOptionPane;
+import java.awt.Dimension;
 
 public class JDeleteProductForm extends javax.swing.JInternalFrame {
 
@@ -14,6 +15,9 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
     public JDeleteProductForm() {
         this.productService = null;
         initComponents();
+        setSize(600, 450);
+        setMinimumSize(new Dimension(600, 450));
+        setResizable(true);
     }
 
     /**
@@ -22,6 +26,7 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
     public JDeleteProductForm(ProductService productService) {
         this.productService = productService;
         initComponents();
+        UITheme.apply(this);
     }
 
     @SuppressWarnings("unchecked")
@@ -45,11 +50,12 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
         btnDelete = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
-        setTitle("Delete Product");
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setIconifiable(true);
-        setResizable(false);
+        setMaximizable(true);
+        setResizable(true);
+        setTitle("Delete Product");
 
         lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -105,7 +111,7 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+                    .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 412, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -120,14 +126,14 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
                                 .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(10, 10, 10)
                                 .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtName, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                            .addComponent(txtSize, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                            .addComponent(txtColor, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                            .addComponent(txtPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                            .addComponent(txtStock, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)))
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 346, Short.MAX_VALUE)
+                            .addComponent(txtSize, javax.swing.GroupLayout.PREFERRED_SIZE, 346, Short.MAX_VALUE)
+                            .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, 346, Short.MAX_VALUE)
+                            .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 346, Short.MAX_VALUE)
+                            .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, 346, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.CENTER, layout.createSequentialGroup()
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                        .addGap(162, 162, Short.MAX_VALUE)
                         .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(20, 20, 20))
         );

@@ -27,6 +27,7 @@ public class JProductsTable extends javax.swing.JInternalFrame {
         this();
         this.productService = productService;
         loadProductsFromService();
+        UITheme.apply(this);
     }
 
     public void setProductService(ProductService productService) {

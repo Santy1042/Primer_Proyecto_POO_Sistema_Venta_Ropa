@@ -38,6 +38,7 @@ public class JCreateSale extends javax.swing.JInternalFrame {
         loadClients();
         loadProducts();
         updateTotalLabel();
+        UITheme.apply(this);
     }
 
     /**
