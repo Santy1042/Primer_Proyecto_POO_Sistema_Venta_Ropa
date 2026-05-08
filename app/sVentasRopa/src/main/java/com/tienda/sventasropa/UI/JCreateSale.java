@@ -22,7 +22,7 @@ public class JCreateSale extends javax.swing.JInternalFrame {
     private IClientRepository clientRepository;
     private IProductRepository productRepository;
     private Sale currentSale;
-    private int nextSaleId = 1;
+    private int nextSaleId = 0;
 
     public JCreateSale() {
         initComponents();
@@ -164,12 +164,12 @@ public class JCreateSale extends javax.swing.JInternalFrame {
     @SuppressWarnings("unchecked")
     private void initComponents() {
         // Inicialización de componentes (resumido para legibilidad)
-        jPanel1 = new javax.swing.JPanel();
+        PanelSaleDetail = new javax.swing.JPanel();
         clientCombo = new javax.swing.JComboBox<>();
         productCombo = new javax.swing.JComboBox<>();
         quantityField = new javax.swing.JTextField();
         addProductBtn = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        ScrollDetailsTable = new javax.swing.JScrollPane();
         saleDetailsTable = new javax.swing.JTable();
         totalLabel = new javax.swing.JLabel();
         saveSaleBtn = new javax.swing.JButton();
@@ -179,28 +179,28 @@ public class JCreateSale extends javax.swing.JInternalFrame {
         setTitle("Nueva Venta");
         setPreferredSize(new java.awt.Dimension(600, 450));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de Venta"));
+        PanelSaleDetail.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de Venta"));
 
         // Layout y adición de componentes
-        jPanel1.setLayout(new java.awt.GridLayout(4, 2, 10, 10));
-        jPanel1.add(new JLabel("Cliente:"));
-        jPanel1.add(clientCombo);
-        jPanel1.add(new JLabel("Producto:"));
-        jPanel1.add(productCombo);
-        jPanel1.add(new JLabel("Cantidad:"));
+        PanelSaleDetail.setLayout(new java.awt.GridLayout(4, 2, 10, 10));
+        PanelSaleDetail.add(new JLabel("Cliente:"));
+        PanelSaleDetail.add(clientCombo);
+        PanelSaleDetail.add(new JLabel("Producto:"));
+        PanelSaleDetail.add(productCombo);
+        PanelSaleDetail.add(new JLabel("Cantidad:"));
         quantityField.setText("1");
-        jPanel1.add(quantityField);
+        PanelSaleDetail.add(quantityField);
         
         addProductBtn.setText("Agregar a la Lista");
         addProductBtn.addActionListener(e -> addProductToSale());
-        jPanel1.add(new JLabel(""));
-        jPanel1.add(addProductBtn);
+        PanelSaleDetail.add(new JLabel(""));
+        PanelSaleDetail.add(addProductBtn);
 
         saleDetailsTable.setModel(new DefaultTableModel(
             new Object[][]{},
             new String[]{"Producto", "Cant.", "Precio", "Subtotal"}
         ));
-        jScrollPane1.setViewportView(saleDetailsTable);
+        ScrollDetailsTable.setViewportView(saleDetailsTable);
 
         totalLabel.setFont(new java.awt.Font("Segoe UI", 1, 18));
         totalLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -212,8 +212,8 @@ public class JCreateSale extends javax.swing.JInternalFrame {
 
         // Layout principal
         getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
-        getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
-        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(PanelSaleDetail, java.awt.BorderLayout.NORTH);
+        getContentPane().add(ScrollDetailsTable, java.awt.BorderLayout.CENTER);
         
         JPanel southPanel = new JPanel(new java.awt.BorderLayout());
         southPanel.add(totalLabel, java.awt.BorderLayout.NORTH);
@@ -225,8 +225,8 @@ public class JCreateSale extends javax.swing.JInternalFrame {
 
     private javax.swing.JButton addProductBtn;
     private javax.swing.JComboBox<Object> clientCombo;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel PanelSaleDetail;
+    private javax.swing.JScrollPane ScrollDetailsTable;
     private javax.swing.JComboBox<Object> productCombo;
     private javax.swing.JTextField quantityField;
     private javax.swing.JButton saveSaleBtn;
