@@ -1,5 +1,8 @@
 package com.tienda.sventasropa.UI;
 
+import com.tienda.sventasropa.json.ClientPersistence;
+import com.tienda.sventasropa.json.ProductPersistence;
+import com.tienda.sventasropa.json.SalePersistence;
 import com.tienda.sventasropa.repository.ClientRepository;
 import com.tienda.sventasropa.repository.ProductRepository;
 import com.tienda.sventasropa.repository.SaleRepository;
@@ -21,11 +24,6 @@ public class MainFrame extends JFrame {
     private SaleRepository saleRepository;
     
     public MainFrame() {
-<<<<<<< HEAD
-        clientRepo = new ClientRepository();
-        productRepo = new ProductRepository();
-        SaleRepository saleRepository = new SaleRepository();
-=======
         ClientPersistence clientPersistence = new ClientPersistence();
         ProductPersistence productPersistence = new ProductPersistence();
         SalePersistence salePersistence = new SalePersistence();
@@ -33,7 +31,6 @@ public class MainFrame extends JFrame {
         clientRepo = new ClientRepository(clientPersistence);
         productRepo = new ProductRepository(productPersistence);
         saleRepository = new SaleRepository(salePersistence);
->>>>>>> 935976a (Arreglo de bug JSON Sales)
 
         clientService = new ClientService(clientRepo);
         productService = new ProductService(productRepo);
