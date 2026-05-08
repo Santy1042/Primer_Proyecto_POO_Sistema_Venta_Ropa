@@ -1,5 +1,6 @@
 package com.tienda.sventasropa.UI;
 
+import com.tienda.sventasropa.json.ClientPersistence;
 import com.tienda.sventasropa.json.ProductPersistence;
 import com.tienda.sventasropa.json.SalePersistence;
 import com.tienda.sventasropa.repository.ClientRepository;
@@ -22,10 +23,11 @@ public class MainFrame extends JFrame {
     private ProductRepository productRepo;
 
     public MainFrame() {
+        ClientPersistence clientPersistence = new ClientPersistence();
         ProductPersistence productPersistence = new ProductPersistence();
         SalePersistence salePersistence = new SalePersistence();
-
-        clientRepo = new ClientRepository();
+      
+        clientRepo = new ClientRepository(clientPersistence);
         productRepo = new ProductRepository(productPersistence);
         SaleRepository saleRepository = new SaleRepository(salePersistence);
 
