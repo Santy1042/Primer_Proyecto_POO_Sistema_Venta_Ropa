@@ -4,6 +4,9 @@
 
 package com.tienda.sventasropa;
 
+import com.tienda.sventasropa.UI.MainFrame;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author Santy
@@ -11,6 +14,9 @@ package com.tienda.sventasropa;
 public class SVentasRopa {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        SwingUtilities.invokeLater(() -> {
+            MainFrame frame = new MainFrame();
+            frame.setVisible(true);
+        });
     }
 }
