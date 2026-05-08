@@ -1,19 +1,19 @@
 package com.tienda.sventasropa.UI;
 
+import com.tienda.sventasropa.interfaces.IProductService;
 import com.tienda.sventasropa.model.Product;
-import com.tienda.sventasropa.service.ProductService;
 import javax.swing.JOptionPane;
 import java.awt.Dimension;
 
 public class JEditProductForm extends javax.swing.JInternalFrame {
 
-    private final ProductService productService;
+    private final IProductService iproductService;
 
     /**
      * Constructor para NetBeans
      */
     public JEditProductForm() {
-        this.productService = null;
+        this.iproductService = null;
         initComponents();
         setSize(600, 450);
         setMinimumSize(new Dimension(600, 450));
@@ -23,8 +23,8 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
     /**
      * Constructor para tu MainFrame
      */
-    public JEditProductForm(ProductService productService) {
-        this.productService = productService;
+    public JEditProductForm(IProductService iproductService) {
+        this.iproductService = iproductService;
         initComponents();
         UITheme.apply(this);
     }
@@ -200,8 +200,8 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         try {
             int id = Integer.parseInt(txtId.getText().trim());
-            if (productService != null) {
-                Product p = productService.findProductById(id);
+            if (iproductService != null) {
+                Product p = iproductService.findProductById(id);
                 if (p != null) {
                     // Llena los campos con la información obtenida
                     txtName.setText(p.getProductName());
@@ -239,7 +239,7 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
             int stock = Integer.parseInt(txtStock.getText().trim());
 
             // 3. Delegar al Servicio
-            if (productService != null && productService.updateProduct(id, name, size, color, price, stock)) {
+            if (iproductService != null && iproductService.updateProduct(id, name, size, color, price, stock)) {
                 JOptionPane.showMessageDialog(this, "Producto actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 btnClearActionPerformed(null); // Limpiar y preparar para otra edición
             }

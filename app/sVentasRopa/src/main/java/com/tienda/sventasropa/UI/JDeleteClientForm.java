@@ -25,7 +25,7 @@ public class JDeleteClientForm extends javax.swing.JInternalFrame {
     private void initTable() {
         tableClients.setModel(new DefaultTableModel(
             new Object[][]{},
-            new String[]{"ID", "Name", "Email", "Phone"}
+            new String[]{"ID", "Name","Last Name", "Email", "Phone"}
         ) {
             @Override
             public boolean isCellEditable(int row, int col) { return false; }
@@ -44,9 +44,9 @@ public class JDeleteClientForm extends javax.swing.JInternalFrame {
         model.setRowCount(0);
         if (iclientService == null) return;
         List<Client> clients = iclientService.getAllClients();
-        for (Client c : clients) {
+        for (Client client : clients) {
             model.addRow(new Object[]{
-                c.getId(), c.getName(), c.getEmail(), c.getPhoneNumber()
+                client.getId(), client.getName(), client.getLastName(), client.getEmail(), client.getPhoneNumber()
             });
         }
     }

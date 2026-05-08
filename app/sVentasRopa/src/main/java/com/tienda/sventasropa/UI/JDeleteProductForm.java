@@ -1,19 +1,19 @@
 package com.tienda.sventasropa.UI;
 
+import com.tienda.sventasropa.interfaces.IProductService;
 import com.tienda.sventasropa.model.Product;
-import com.tienda.sventasropa.service.ProductService;
 import javax.swing.JOptionPane;
 import java.awt.Dimension;
 
 public class JDeleteProductForm extends javax.swing.JInternalFrame {
 
-    private final ProductService productService;
+    private final IProductService iproductService;
 
     /**
      * Constructor para NetBeans
      */
     public JDeleteProductForm() {
-        this.productService = null;
+        this.iproductService = null;
         initComponents();
         setSize(600, 450);
         setMinimumSize(new Dimension(600, 450));
@@ -23,8 +23,8 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
     /**
      * Constructor para tu MainFrame
      */
-    public JDeleteProductForm(ProductService productService) {
-        this.productService = productService;
+    public JDeleteProductForm(IProductService iproductService) {
+        this.iproductService = iproductService;
         initComponents();
         UITheme.apply(this);
     }
@@ -210,8 +210,8 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         try {
             int id = Integer.parseInt(txtId.getText().trim());
-            if (productService != null) {
-                Product p = productService.findProductById(id);
+            if (iproductService != null) {
+                Product p = iproductService.findProductById(id);
                 if (p != null) {
                     txtName.setText(p.getProductName());
                     txtSize.setText(p.getProductSize());
@@ -246,7 +246,7 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
             
             if (confirm == JOptionPane.YES_OPTION) {
                 // 3. Delegar eliminación al Servicio
-                if (productService != null && productService.deleteProduct(id)) {
+                if (iproductService != null && iproductService.deleteProduct(id)) {
                     JOptionPane.showMessageDialog(this, "Producto eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     btnClearActionPerformed(null); // Limpiar tras borrar
                 }
