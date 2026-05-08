@@ -49,6 +49,8 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
         txtStock = new javax.swing.JTextField();
         btnUpdate = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
+        scrollProductsTable = new javax.swing.JScrollPane();
+        tblProducts = new javax.swing.JTable();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -94,6 +96,31 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
             }
         });
 
+        tblProducts.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Name", "Size", "Color", "Price", "Stock"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblProducts.setGridColor(new java.awt.Color(225, 225, 225));
+        tblProducts.setRowHeight(28);
+        tblProducts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblProducts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        scrollProductsTable.setViewportView(tblProducts);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -123,9 +150,10 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
                             .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, 382, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.CENTER, layout.createSequentialGroup()
                         .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(198, 198, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(20, 20, 20))
+            .addComponent(scrollProductsTable)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,7 +189,9 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnUpdate)
                     .addComponent(btnClear))
-                .addGap(10, 10, 10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollProductsTable, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -243,6 +273,8 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblSize;
     private javax.swing.JLabel lblStock;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JScrollPane scrollProductsTable;
+    private javax.swing.JTable tblProducts;
     private javax.swing.JTextField txtColor;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtName;

@@ -48,6 +48,8 @@ public class JAddProductForm extends javax.swing.JInternalFrame {
         txtStock = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
+        scrollProductsTable = new javax.swing.JScrollPane();
+        tblProducts = new javax.swing.JTable();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -59,6 +61,12 @@ public class JAddProductForm extends javax.swing.JInternalFrame {
         lblTitle.setText("Add New Product");
 
         lblId.setText("ID:");
+
+        txtId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdActionPerformed(evt);
+            }
+        });
 
         lblName.setText("Name:");
 
@@ -83,6 +91,32 @@ public class JAddProductForm extends javax.swing.JInternalFrame {
                 btnClearActionPerformed(evt);
             }
         });
+
+        tblProducts.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Name", "Size", "Color", "Price", "Stock"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblProducts.setGridColor(new java.awt.Color(225, 225, 225));
+        tblProducts.setRowHeight(28);
+        tblProducts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblProducts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblProducts.setShowGrid(false);
+        scrollProductsTable.setViewportView(tblProducts);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -112,7 +146,8 @@ public class JAddProductForm extends javax.swing.JInternalFrame {
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(174, 174, Short.MAX_VALUE)
                         .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(20, 20, 20))
+                .addGap(112, 112, 112))
+            .addComponent(scrollProductsTable)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,7 +182,8 @@ public class JAddProductForm extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
                     .addComponent(btnClear))
-                .addGap(10, 10, 10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(scrollProductsTable, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -188,6 +224,10 @@ public class JAddProductForm extends javax.swing.JInternalFrame {
         txtId.requestFocus(); // Devuelve el cursor al primer campo
     }//GEN-LAST:event_btnClearActionPerformed
 
+    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClear;
@@ -198,6 +238,8 @@ public class JAddProductForm extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblSize;
     private javax.swing.JLabel lblStock;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JScrollPane scrollProductsTable;
+    private javax.swing.JTable tblProducts;
     private javax.swing.JTextField txtColor;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtName;
