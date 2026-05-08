@@ -6,6 +6,8 @@ package com.tienda.sventasropa.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.tienda.sventasropa.interfaces.IClientPersistence;
 import com.tienda.sventasropa.interfaces.IClientRepository;
 import com.tienda.sventasropa.model.Client;
 
@@ -15,9 +17,11 @@ import com.tienda.sventasropa.model.Client;
  */
 public class ClientRepository implements IClientRepository {
     private final List<Client> clients;
+    private final IClientPersistence persistence;
     
-    public ClientRepository() {
-        this.clients = new ArrayList<>();
+    public ClientRepository(IClientPersistence persistence) {
+        this.persistence = persistence;
+        this.clients = this.persistence.loadClients();
     }
     
     @Override
@@ -25,7 +29,11 @@ public class ClientRepository implements IClientRepository {
         if (cliente == null) {
             return false;
         }
-        return clients.add(cliente);
+        boolean added = clients.add(cliente);
+        if (added) {
+            persistence.saveClients(clients);
+        }        
+        return added;
     }
 
     @Override
@@ -36,6 +44,7 @@ public class ClientRepository implements IClientRepository {
                 client.setLastName(datosNuevos.getLastName());
                 client.setEmail(datosNuevos.getEmail());
                 client.setPhoneNumber(datosNuevos.getPhoneNumber());
+                persistence.saveClients(clients);
                 return;
             }
         }
@@ -44,6 +53,7 @@ public class ClientRepository implements IClientRepository {
     @Override
     public void deleteClient(int id) {
         clients.removeIf(client -> client.getId() == id);
+        persistence.saveClients(clients);
     }
 
     @Override
