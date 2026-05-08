@@ -1,12 +1,17 @@
 package com.tienda.sventasropa.service;
 
+import com.tienda.sventasropa.model.Product;
+
 import java.util.List;
 
 import com.tienda.sventasropa.interfaces.IProductRepository;
 import com.tienda.sventasropa.interfaces.IProductService;
-import com.tienda.sventasropa.model.Product;
 
 
+/**
+ *
+ * @author Santy
+ */
 public class ProductService implements IProductService {
     private final IProductRepository productRepository;
 
