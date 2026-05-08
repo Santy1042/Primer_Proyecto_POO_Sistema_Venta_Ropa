@@ -1,11 +1,16 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package com.tienda.sventasropa.UI;
 import com.tienda.sventasropa.interfaces.ISaleService;
 import com.tienda.sventasropa.model.Sale;
 import javax.swing.JOptionPane;
 import java.awt.Dimension;
 import java.time.format.DateTimeFormatter;
-
-
+    /**
+     * @author Christopher
+     */
 public class JDeleteSale extends javax.swing.JInternalFrame{
     private final ISaleService iSaleService;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -284,5 +289,5 @@ public class JDeleteSale extends javax.swing.JInternalFrame{
     private javax.swing.JTextField txtProducts;
     private javax.swing.JTextField txtQuantity;
     private javax.swing.JTextField txtTotal;
-    // End of variables declaration//GEN-END:variables
 }
+    // End of variables declaration//GEN-END:variables
