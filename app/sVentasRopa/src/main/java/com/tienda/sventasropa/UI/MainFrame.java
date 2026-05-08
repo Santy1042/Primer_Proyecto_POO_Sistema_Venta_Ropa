@@ -21,7 +21,8 @@ public class MainFrame extends JFrame {
     
     private ClientRepository clientRepo;
     private ProductRepository productRepo;
-
+    private SaleRepository saleRepository;
+    
     public MainFrame() {
         ClientPersistence clientPersistence = new ClientPersistence();
         ProductPersistence productPersistence = new ProductPersistence();
@@ -29,7 +30,7 @@ public class MainFrame extends JFrame {
       
         clientRepo = new ClientRepository(clientPersistence);
         productRepo = new ProductRepository(productPersistence);
-        SaleRepository saleRepository = new SaleRepository(salePersistence);
+        saleRepository = new SaleRepository(salePersistence);
 
         clientService = new ClientService(clientRepo);
         productService = new ProductService(productRepo);
