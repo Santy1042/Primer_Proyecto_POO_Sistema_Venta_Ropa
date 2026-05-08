@@ -18,11 +18,22 @@ public class MainFrame extends JFrame {
     
     private ClientRepository clientRepo;
     private ProductRepository productRepo;
-
+    private SaleRepository saleRepository;
+    
     public MainFrame() {
+<<<<<<< HEAD
         clientRepo = new ClientRepository();
         productRepo = new ProductRepository();
         SaleRepository saleRepository = new SaleRepository();
+=======
+        ClientPersistence clientPersistence = new ClientPersistence();
+        ProductPersistence productPersistence = new ProductPersistence();
+        SalePersistence salePersistence = new SalePersistence();
+      
+        clientRepo = new ClientRepository(clientPersistence);
+        productRepo = new ProductRepository(productPersistence);
+        saleRepository = new SaleRepository(salePersistence);
+>>>>>>> 935976a (Arreglo de bug JSON Sales)
 
         clientService = new ClientService(clientRepo);
         productService = new ProductService(productRepo);
