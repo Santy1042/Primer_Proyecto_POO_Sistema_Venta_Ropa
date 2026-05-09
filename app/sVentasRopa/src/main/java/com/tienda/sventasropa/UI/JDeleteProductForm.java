@@ -5,7 +5,6 @@ import com.tienda.sventasropa.interfaces.IProductService;
 import javax.swing.JOptionPane;
 import java.awt.Dimension;
 import javax.swing.table.DefaultTableModel;
-import com.tienda.sventasropa.model.Product;
 
 public class JDeleteProductForm extends javax.swing.JInternalFrame {
 
@@ -276,16 +275,14 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
                     txtColor.setText(p.getProductColor());
                     txtPrice.setText(String.valueOf(p.getProductPrice()));
                     txtStock.setText(String.valueOf(p.getProductStock()));
-                    // Bloquear el ID para confirmar que estamos borrando este y no otro accidentalmente
                     txtId.setEditable(false);
                 }
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Por favor ingrese un ID numérico válido para buscar.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException e) {
-            // Atrapa el "No se encontró un producto con el ID especificado" del ProductService
             JOptionPane.showMessageDialog(this, e.getMessage(), "No Encontrado", JOptionPane.WARNING_MESSAGE);
-            btnClearActionPerformed(null); // Limpiar si no lo encuentra para evitar datos fantasmas
+            btnClearActionPerformed(null);
             loadProductsTable();
         }
     }//GEN-LAST:event_btnSearchActionPerformed
@@ -304,16 +301,14 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
             if (confirm == JOptionPane.YES_OPTION) {
                 if (productService != null && productService.deleteProduct(id)) {
                     JOptionPane.showMessageDialog(this, "Producto eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                    btnClearActionPerformed(null); // Limpiar tras borrar
+                    btnClearActionPerformed(null);
                     
-                    // ACTUALIZACIÓN AQUÍ: Recargar la tabla con los datos más recientes
                     loadProductsTable(); 
                 }
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "El ID no tiene un formato válido.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException e) {
-            // Atrapar cualquier rechazo de la capa de negocio
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed

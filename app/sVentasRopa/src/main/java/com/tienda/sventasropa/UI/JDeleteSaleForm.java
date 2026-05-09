@@ -25,7 +25,7 @@ public class JDeleteSaleForm extends javax.swing.JInternalFrame {
         initComponents();
         initTable();
         loadSales();
-        UITheme.apply(this); // Aplicando el tema de la UI como solicitaste
+        UITheme.apply(this);
     }
 
     private void initTable() {
@@ -43,7 +43,6 @@ public class JDeleteSaleForm extends javax.swing.JInternalFrame {
                 int id = Integer.parseInt(tableSales.getValueAt(row, 0).toString());
                 fieldId.setText(String.valueOf(id));
                 
-                // Buscamos la venta completa para obtener los SaleDetails
                 Optional<Sale> optSale = iSaleService.findSale(id);
                 if (optSale.isPresent()) {
                     Sale sale = optSale.get();
@@ -149,11 +148,9 @@ public class JDeleteSaleForm extends javax.swing.JInternalFrame {
         setTitle("Delete Sale Record");
         setPreferredSize(new java.awt.Dimension(750, 550));
 
-        // Panel superior principal con BorderLayout para darle espacio al JTextArea
         panelTop.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalles de la Venta a Eliminar"));
         panelTop.setLayout(new java.awt.BorderLayout(0, 10));
 
-        // Controles de botones e ID en la parte superior (Norte)
         panelControls.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
         
         labelId.setText("ID Venta Seleccionada:");
@@ -175,7 +172,6 @@ public class JDeleteSaleForm extends javax.swing.JInternalFrame {
 
         panelTop.add(panelControls, java.awt.BorderLayout.NORTH);
 
-        // Área de texto para mostrar los SaleDetail en el Centro
         areaDetails.setEditable(false);
         areaDetails.setColumns(20);
         areaDetails.setRows(6);
@@ -187,7 +183,6 @@ public class JDeleteSaleForm extends javax.swing.JInternalFrame {
 
         getContentPane().add(panelTop, java.awt.BorderLayout.NORTH);
 
-        // Tabla en el Centro del InternalFrame
         scrollSales.setViewportView(tableSales);
         getContentPane().add(scrollSales, java.awt.BorderLayout.CENTER);
 

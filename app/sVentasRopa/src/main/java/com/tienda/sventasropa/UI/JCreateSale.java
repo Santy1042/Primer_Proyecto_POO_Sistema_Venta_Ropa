@@ -35,7 +35,7 @@ public class JCreateSale extends javax.swing.JInternalFrame {
         setupRenderers();
         loadClients();
         loadProducts();
-        updateReceipt(); // Inicializa el área de texto
+        updateReceipt();
         UITheme.apply(this);
     }
 
@@ -112,16 +112,13 @@ public class JCreateSale extends javax.swing.JInternalFrame {
 
             SaleDetail detail = new SaleDetail(selectedProduct.getProductId(), selectedProduct, quantity);
             
-            // Si modificaste Sale.java para agrupar, la línea de abajo hará la magia automáticamente.
             currentSale.addDetail(detail);
             
-            // Restar stock visualmente (debería delegarse al servicio/repo al finalizar, pero lo dejamos como tu lógica original)
             selectedProduct.setProductStock(selectedProduct.getProductStock() - quantity);
 
             updateReceipt();
             quantityField.setText("1");
             
-            // Refrescar combo para ver el stock actualizado
             productCombo.repaint();
 
         } catch (NumberFormatException e) {
@@ -148,10 +145,9 @@ public class JCreateSale extends javax.swing.JInternalFrame {
         currentSale = null;
         clientCombo.setEnabled(true);
         updateReceipt();
-        loadProducts(); // Recargar para restaurar stock en caso de error o refrescar BD
+        loadProducts();
     }
 
-    // --- NUEVO MÉTODO PARA DIBUJAR EL TICKET ---
     private void updateReceipt() {
         if (currentSale == null || !currentSale.hasDetails()) {
             areaReceipt.setText("Aún no hay productos en la venta actual...");

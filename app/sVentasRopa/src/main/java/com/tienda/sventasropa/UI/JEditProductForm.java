@@ -5,7 +5,6 @@ import com.tienda.sventasropa.interfaces.IProductService;
 import javax.swing.JOptionPane;
 import java.awt.Dimension;
 import javax.swing.table.DefaultTableModel;
-import com.tienda.sventasropa.model.Product;
 
 public class JEditProductForm extends javax.swing.JInternalFrame {
 
@@ -264,7 +263,6 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
                     txtColor.setText(p.getProductColor());
                     txtPrice.setText(String.valueOf(p.getProductPrice()));
                     txtStock.setText(String.valueOf(p.getProductStock()));
-                    // Bloquear el txtId para que no cambie el ID por error durante la edición
                     txtId.setEditable(false); 
                 }
             }
@@ -279,14 +277,12 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // 1. Validar que el usuario sí buscó algo primero (El ID debe estar bloqueado)
         if (txtId.isEditable()) {
             JOptionPane.showMessageDialog(this, "Por favor busque el producto primero usando el ID.", "Información", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
         try {
-            // 2. Recolectar datos
             int id = Integer.parseInt(txtId.getText().trim());
             String name = txtName.getText().trim();
             String size = txtSize.getText().trim();
@@ -294,7 +290,6 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
             double price = Double.parseDouble(txtPrice.getText().trim());
             int stock = Integer.parseInt(txtStock.getText().trim());
 
-            // 3. Delegar al Servicio
             if (productService != null && productService.updateProduct(id, name, size, color, price, stock)) {
                 JOptionPane.showMessageDialog(this, "Producto actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 btnClearActionPerformed(null);
@@ -310,7 +305,7 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         txtId.setText("");
-        txtId.setEditable(true); // Desbloqueamos el ID para una nueva búsqueda
+        txtId.setEditable(true);
         txtName.setText("");
         txtSize.setText("");
         txtColor.setText("");

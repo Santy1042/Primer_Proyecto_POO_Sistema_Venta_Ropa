@@ -116,7 +116,6 @@ public class SaleService implements ISaleService {
         if (allSales == null || allSales.isEmpty()) {
             return 1;
         }
-        // Busca el ID más alto y le suma 1
         return allSales.stream()
                        .mapToInt(Sale::getId)
                        .max()

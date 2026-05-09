@@ -2,7 +2,6 @@ package com.tienda.sventasropa.UI;
 
 import com.tienda.sventasropa.interfaces.IProductService;
 import javax.swing.JOptionPane;
-import java.awt.Dimension;
 import javax.swing.table.DefaultTableModel;
 import com.tienda.sventasropa.model.Product;
 
@@ -10,18 +9,12 @@ public class JAddProductForm extends javax.swing.JInternalFrame {
 
     private final IProductService iproductService;
 
-    /**
-     * Constructor para NetBeans (sin argumentos)
-     */
     public JAddProductForm() {
         this.iproductService = null;
         initComponents();
     }
 
-    /**
-     * Constructor principal para la aplicación.
-     * Recibe el servicio ya instanciado desde el MainFrame.
-     */
+
     public JAddProductForm(IProductService iproductService) {
         this.iproductService = iproductService;
         initComponents();
@@ -236,7 +229,6 @@ public class JAddProductForm extends javax.swing.JInternalFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
-            // 1. La UI solo recolecta y transforma datos (Sin lógica de negocio)
             int id = Integer.parseInt(txtId.getText().trim());
             String name = txtName.getText().trim();
             String size = txtSize.getText().trim();
@@ -244,17 +236,14 @@ public class JAddProductForm extends javax.swing.JInternalFrame {
             double price = Double.parseDouble(txtPrice.getText().trim());
             int stock = Integer.parseInt(txtStock.getText().trim());
 
-            // 2. Se delega toda la responsabilidad al Servicio
             if (iproductService != null && iproductService.addProduct(id, name, size, color, price, stock)) {
                 JOptionPane.showMessageDialog(this, "Product added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                btnClearActionPerformed(null); // Limpiar formulario tras guardar
+                btnClearActionPerformed(null);
             }
             
         } catch (NumberFormatException e) {
-            // Este error ocurre si el usuario escribe letras en el ID, Precio o Stock, o los deja vacíos.
             JOptionPane.showMessageDialog(this, "Por favor verifique que el ID, Precio y Stock sean valores numéricos válidos.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException e) {
-            // Aquí atrapamos las validaciones estrictas de tu ProductService y mostramos tu mensaje personalizado
             JOptionPane.showMessageDialog(this, e.getMessage(), "Atención", JOptionPane.WARNING_MESSAGE);
         }
         loadProductsTable();
@@ -267,11 +256,10 @@ public class JAddProductForm extends javax.swing.JInternalFrame {
         txtColor.setText("");
         txtPrice.setText("");
         txtStock.setText("");
-        txtId.requestFocus(); // Devuelve el cursor al primer campo
+        txtId.requestFocus();
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtIdActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

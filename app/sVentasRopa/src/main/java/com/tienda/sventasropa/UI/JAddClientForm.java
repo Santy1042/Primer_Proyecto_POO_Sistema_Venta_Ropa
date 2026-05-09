@@ -110,7 +110,6 @@ public class JAddClientForm extends javax.swing.JInternalFrame {
         setTitle("Client Management");
         setPreferredSize(new java.awt.Dimension(800, 500));
 
-        // Ajustado a 6 filas para incluir Last Name
         panelTop.setBackground(new java.awt.Color(0, 204, 204));
         panelTop.setBorder(javax.swing.BorderFactory.createTitledBorder("Client Data"));
         panelTop.setLayout(new java.awt.GridLayout(6, 2, 8, 8));
