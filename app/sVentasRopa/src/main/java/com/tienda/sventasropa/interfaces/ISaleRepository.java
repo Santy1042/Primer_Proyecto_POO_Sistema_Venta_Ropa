@@ -8,6 +8,5 @@ public interface ISaleRepository {
     void save(Sale sale);
     List<Sale> list();
     Optional<Sale> findById(int id);
-    void update(Sale sale);
-    void delete(int id);
+    boolean delete(int id);
 }

@@ -19,6 +19,7 @@ public class JSalesTable extends javax.swing.JInternalFrame {
         initComponents();
         initSalesTable();
         loadSalesFromService();
+        UITheme.apply(this); // Aplicando el tema oscuro
     }
 
     public JSalesTable(ISaleService salesService) {
@@ -26,6 +27,7 @@ public class JSalesTable extends javax.swing.JInternalFrame {
         initComponents();
         initSalesTable();
         loadSalesFromService();
+        UITheme.apply(this); // Aplicando el tema oscuro
     }
 
     public void setIsalesService(ISaleService salesService) {
@@ -150,7 +152,6 @@ public class JSalesTable extends javax.swing.JInternalFrame {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanelShowSales = new javax.swing.JScrollPane();
@@ -182,10 +183,8 @@ public class JSalesTable extends javax.swing.JInternalFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jPanelShowSales;
     private javax.swing.JTable salesTable;
-    // End of variables declaration//GEN-END:variables
 }

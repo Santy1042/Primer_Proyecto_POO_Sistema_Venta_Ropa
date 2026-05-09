@@ -106,12 +106,16 @@ public class MainFrame extends JFrame {
         menuSales.setFont(new Font("Segoe UI", Font.BOLD, 13));
 
         JMenuItem menuCreateSale = createMenuItem("   Create New Sale");
+        JMenuItem menuDeleteSale = createMenuItem("   Delete Sale");
         JMenuItem menuViewSales = createMenuItem("   View Sales History");
 
         menuCreateSale.addActionListener(e -> openCreateSaleForm());
+        menuDeleteSale.addActionListener(e -> openDeleteSaleForm());
         menuViewSales.addActionListener(e -> openSalesTable());
         
+        
         menuSales.add(menuCreateSale);
+        menuSales.add(menuDeleteSale);
         menuSales.addSeparator();
         menuSales.add(menuViewSales);
         menuBar.add(menuSales);
@@ -191,6 +195,12 @@ public class MainFrame extends JFrame {
 
     private void openSalesTable() {
         JSalesTable frame = new JSalesTable(iSaleService);
+        desktopPane.add(frame);
+        frame.setVisible(true);
+    }
+
+    private void openDeleteSaleForm() {
+        JDeleteSaleForm frame = new JDeleteSaleForm(iSaleService);
         desktopPane.add(frame);
         frame.setVisible(true);
     }

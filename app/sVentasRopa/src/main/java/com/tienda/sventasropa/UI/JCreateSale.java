@@ -9,7 +9,6 @@ import com.tienda.sventasropa.model.Sale;
 import com.tienda.sventasropa.model.SaleDetail;
 import java.util.List;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 /**
@@ -22,7 +21,6 @@ public class JCreateSale extends javax.swing.JInternalFrame {
     private IClientRepository clientRepository;
     private IProductRepository productRepository;
     private Sale currentSale;
-    private int nextSaleId = 0;
 
     public JCreateSale() {
         initComponents();
@@ -34,16 +32,13 @@ public class JCreateSale extends javax.swing.JInternalFrame {
         this.productRepository = productRepository;
         
         initComponents();
-        setupRenderers(); // Fix para las "direcciones de memoria"
+        setupRenderers();
         loadClients();
         loadProducts();
-        updateTotalLabel();
+        updateReceipt(); // Inicializa el área de texto
         UITheme.apply(this);
     }
 
-    /**
-     * Configura cómo se ven los objetos dentro de los ComboBoxes
-     */
     private void setupRenderers() {
         clientCombo.setRenderer(new DefaultListCellRenderer() {
             @Override
@@ -63,7 +58,7 @@ public class JCreateSale extends javax.swing.JInternalFrame {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 if (value instanceof Product) {
                     Product p = (Product) value;
-                    setText(p.getProductName() + " (Stock: " + p.getProductStock() + ")");
+                    setText(p.getProductName() + " (Stock: " + p.getProductStock() + ") - $" + p.getProductPrice());
                 }
                 return this;
             }
@@ -90,14 +85,17 @@ public class JCreateSale extends javax.swing.JInternalFrame {
 
     private void addProductToSale() {
         if (clientCombo.getSelectedIndex() < 0) {
-            JOptionPane.showMessageDialog(this, "Seleccione un cliente primero.");
+            JOptionPane.showMessageDialog(this, "Seleccione un cliente primero.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         if (currentSale == null) {
             Client selectedClient = (Client) clientCombo.getSelectedItem();
-            currentSale = saleService.createSale(nextSaleId++, selectedClient);
-            clientCombo.setEnabled(false); // Bloquear cliente una vez iniciada la venta
+            
+            int nextId = saleService.getNextSaleId(); 
+            
+            currentSale = saleService.createSale(nextId, selectedClient);
+            clientCombo.setEnabled(false);
         }
 
         try {
@@ -108,116 +106,146 @@ public class JCreateSale extends javax.swing.JInternalFrame {
             if (quantity <= 0) throw new NumberFormatException();
 
             if (selectedProduct.getProductStock() < quantity) {
-                JOptionPane.showMessageDialog(this, "Stock insuficiente.");
+                JOptionPane.showMessageDialog(this, "Stock insuficiente.", "Error de Stock", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             SaleDetail detail = new SaleDetail(selectedProduct.getProductId(), selectedProduct, quantity);
+            
+            // Si modificaste Sale.java para agrupar, la línea de abajo hará la magia automáticamente.
             currentSale.addDetail(detail);
             
+            // Restar stock visualmente (debería delegarse al servicio/repo al finalizar, pero lo dejamos como tu lógica original)
             selectedProduct.setProductStock(selectedProduct.getProductStock() - quantity);
 
-            DefaultTableModel model = (DefaultTableModel) saleDetailsTable.getModel();
-            model.addRow(new Object[]{
-                selectedProduct.getProductName(),
-                quantity,
-                String.format("$%.2f", selectedProduct.getProductPrice()),
-                String.format("$%.2f", detail.getSubtotal())
-            });
-
-            updateTotalLabel();
+            updateReceipt();
             quantityField.setText("1");
+            
+            // Refrescar combo para ver el stock actualizado
+            productCombo.repaint();
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Ingrese una cantidad válida.");
+            JOptionPane.showMessageDialog(this, "Ingrese una cantidad válida.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void saveSale() {
         if (currentSale == null || !currentSale.hasDetails()) {
-            JOptionPane.showMessageDialog(this, "Agregue productos a la venta.");
+            JOptionPane.showMessageDialog(this, "Agregue productos a la venta antes de finalizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         try {
             saleService.saveSale(currentSale);
-            JOptionPane.showMessageDialog(this, "Venta #" + currentSale.getId() + " guardada.");
+            JOptionPane.showMessageDialog(this, "Venta #" + currentSale.getId() + " guardada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             resetForm();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al guardar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void resetForm() {
         currentSale = null;
         clientCombo.setEnabled(true);
-        ((DefaultTableModel) saleDetailsTable.getModel()).setRowCount(0);
-        updateTotalLabel();
-        loadProducts(); // Recargar para actualizar stock visualmente
+        updateReceipt();
+        loadProducts(); // Recargar para restaurar stock en caso de error o refrescar BD
     }
 
-    private void updateTotalLabel() {
-        double total = (currentSale != null) ? currentSale.getTotal() : 0.0;
-        totalLabel.setText(String.format("Total a Pagar: $%.2f", total));
+    // --- NUEVO MÉTODO PARA DIBUJAR EL TICKET ---
+    private void updateReceipt() {
+        if (currentSale == null || !currentSale.hasDetails()) {
+            areaReceipt.setText("Aún no hay productos en la venta actual...");
+            totalLabel.setText("Total a Pagar: $0.00");
+            return;
+        }
+
+        StringBuilder receipt = new StringBuilder();
+        receipt.append("==================================================\n");
+        receipt.append("                  TICKET DE VENTA                 \n");
+        receipt.append("==================================================\n");
+        receipt.append("CLIENTE: ").append(currentSale.getClient().getName()).append(" ").append(currentSale.getClient().getLastName()).append("\n");
+        receipt.append("FECHA:   ").append(currentSale.getDate().toString()).append("\n");
+        receipt.append("--------------------------------------------------\n");
+        receipt.append("ARTÍCULOS:\n\n");
+
+        for (SaleDetail detail : currentSale.getDetails()) {
+            receipt.append(" • ").append(detail.toString()).append("\n");
+        }
+
+        receipt.append("\n--------------------------------------------------\n");
+        receipt.append(String.format("SUBTOTAL: $%.2f\n", currentSale.getSubtotal()));
+        receipt.append("==================================================\n");
+
+        areaReceipt.setText(receipt.toString());
+        totalLabel.setText(String.format("Total a Pagar: $%.2f", currentSale.getTotal()));
     }
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
-        // Inicialización de componentes (resumido para legibilidad)
+
         PanelSaleDetail = new javax.swing.JPanel();
         clientCombo = new javax.swing.JComboBox<>();
         productCombo = new javax.swing.JComboBox<>();
         quantityField = new javax.swing.JTextField();
         addProductBtn = new javax.swing.JButton();
-        ScrollDetailsTable = new javax.swing.JScrollPane();
-        saleDetailsTable = new javax.swing.JTable();
+        ScrollReceipt = new javax.swing.JScrollPane();
+        areaReceipt = new javax.swing.JTextArea();
+        southPanel = new javax.swing.JPanel();
         totalLabel = new javax.swing.JLabel();
         saveSaleBtn = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setTitle("Nueva Venta");
-        setPreferredSize(new java.awt.Dimension(600, 450));
+        setPreferredSize(new java.awt.Dimension(650, 500));
 
         PanelSaleDetail.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de Venta"));
-
-        // Layout y adición de componentes
         PanelSaleDetail.setLayout(new java.awt.GridLayout(4, 2, 10, 10));
-        PanelSaleDetail.add(new JLabel("Cliente:"));
+
+        PanelSaleDetail.add(new JLabel("Cliente Seleccionado:"));
         PanelSaleDetail.add(clientCombo);
-        PanelSaleDetail.add(new JLabel("Producto:"));
+        
+        PanelSaleDetail.add(new JLabel("Producto a Agregar:"));
         PanelSaleDetail.add(productCombo);
+        
         PanelSaleDetail.add(new JLabel("Cantidad:"));
         quantityField.setText("1");
         PanelSaleDetail.add(quantityField);
         
-        addProductBtn.setText("Agregar a la Lista");
+        PanelSaleDetail.add(new JLabel("")); // Espacio vacío
+        addProductBtn.setBackground(new java.awt.Color(51, 153, 255));
+        addProductBtn.setForeground(java.awt.Color.WHITE);
+        addProductBtn.setText("Agregar al Ticket");
         addProductBtn.addActionListener(e -> addProductToSale());
-        PanelSaleDetail.add(new JLabel(""));
         PanelSaleDetail.add(addProductBtn);
 
-        saleDetailsTable.setModel(new DefaultTableModel(
-            new Object[][]{},
-            new String[]{"Producto", "Cant.", "Precio", "Subtotal"}
-        ));
-        ScrollDetailsTable.setViewportView(saleDetailsTable);
+        // Configuración del JTextArea
+        areaReceipt.setEditable(false);
+        areaReceipt.setColumns(20);
+        areaReceipt.setRows(10);
+        areaReceipt.setFont(new java.awt.Font("Monospaced", 0, 14));
+        areaReceipt.setBackground(new java.awt.Color(250, 250, 250));
+        ScrollReceipt.setViewportView(areaReceipt);
+        ScrollReceipt.setBorder(javax.swing.BorderFactory.createTitledBorder("Resumen de Compra"));
 
         totalLabel.setFont(new java.awt.Font("Segoe UI", 1, 18));
         totalLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         saveSaleBtn.setBackground(new java.awt.Color(0, 153, 51));
-        saveSaleBtn.setForeground(Color.WHITE);
+        saveSaleBtn.setForeground(java.awt.Color.WHITE);
+        saveSaleBtn.setFont(new java.awt.Font("Segoe UI", 1, 14));
         saveSaleBtn.setText("FINALIZAR VENTA");
+        saveSaleBtn.setPreferredSize(new java.awt.Dimension(200, 40));
         saveSaleBtn.addActionListener(e -> saveSale());
 
-        // Layout principal
-        getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
-        getContentPane().add(PanelSaleDetail, java.awt.BorderLayout.NORTH);
-        getContentPane().add(ScrollDetailsTable, java.awt.BorderLayout.CENTER);
-        
-        JPanel southPanel = new JPanel(new java.awt.BorderLayout());
+        southPanel.setLayout(new java.awt.BorderLayout(0, 10));
+        southPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         southPanel.add(totalLabel, java.awt.BorderLayout.NORTH);
         southPanel.add(saveSaleBtn, java.awt.BorderLayout.SOUTH);
+
+        getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
+        getContentPane().add(PanelSaleDetail, java.awt.BorderLayout.NORTH);
+        getContentPane().add(ScrollReceipt, java.awt.BorderLayout.CENTER);
         getContentPane().add(southPanel, java.awt.BorderLayout.SOUTH);
 
         pack();
@@ -226,10 +254,11 @@ public class JCreateSale extends javax.swing.JInternalFrame {
     private javax.swing.JButton addProductBtn;
     private javax.swing.JComboBox<Object> clientCombo;
     private javax.swing.JPanel PanelSaleDetail;
-    private javax.swing.JScrollPane ScrollDetailsTable;
+    private javax.swing.JScrollPane ScrollReceipt;
     private javax.swing.JComboBox<Object> productCombo;
     private javax.swing.JTextField quantityField;
     private javax.swing.JButton saveSaleBtn;
-    private javax.swing.JTable saleDetailsTable;
+    private javax.swing.JTextArea areaReceipt;
     private javax.swing.JLabel totalLabel;
+    private javax.swing.JPanel southPanel;
 }

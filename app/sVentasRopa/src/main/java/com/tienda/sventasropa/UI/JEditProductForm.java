@@ -299,6 +299,8 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Producto actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 btnClearActionPerformed(null); // Limpiar y preparar para otra edición
                 
+                // --> LÍNEA AGREGADA: Recargar la tabla para mostrar los cambios <--
+                loadProductsTable(); 
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Por favor verifique que el Precio y Stock sean valores numéricos válidos.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
@@ -307,7 +309,7 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Atención", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
-
+    
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         txtId.setText("");
         txtId.setEditable(true); // Desbloqueamos el ID para una nueva búsqueda
