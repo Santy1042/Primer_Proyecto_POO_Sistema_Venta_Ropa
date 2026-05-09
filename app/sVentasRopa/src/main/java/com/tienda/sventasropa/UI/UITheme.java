@@ -252,7 +252,11 @@ public class UITheme {
 
         table.setSelectionForeground(Color.WHITE);
 
-        table.setShowGrid(false);
+        table.setShowHorizontalLines(true);
+
+        table.setShowVerticalLines(true);
+
+        table.setIntercellSpacing(new Dimension(1,1));
 
         table.setIntercellSpacing(new Dimension(0, 4));
 

@@ -58,6 +58,8 @@ public class JProductsTable extends javax.swing.JInternalFrame {
             model.addRow(new Object[]{
                 product.getProductId(),
                 product.getProductName(),
+                product.getProductSize(),
+                product.getProductColor(),
                 product.getProductPrice(),
                 product.getProductStock()
             });
@@ -67,7 +69,7 @@ public class JProductsTable extends javax.swing.JInternalFrame {
     private void initProductsTable() {
         productsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object[][]{},
-            new String[]{"ID", "Nombre", "Precio", "Stock"}
+            new String[]{"ID", "Name", "Size","Color", "Price", "Stock"}
         ) {
             boolean[] canEdit = new boolean[]{false, false, false, false};
 
