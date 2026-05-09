@@ -13,26 +13,28 @@ import javax.swing.JOptionPane;
 public class JSalesTable extends javax.swing.JInternalFrame {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    private ISaleService salesService;
+    private ISaleService isalesService;
 
     public JSalesTable() {
         initComponents();
         initSalesTable();
         loadSalesFromService();
+        UITheme.apply(this); // Aplicando el tema oscuro
     }
 
     public JSalesTable(ISaleService salesService) {
-        this.salesService = salesService;
+        this.isalesService = salesService;
         initComponents();
         initSalesTable();
         loadSalesFromService();
+        UITheme.apply(this); // Aplicando el tema oscuro
     }
 
-    public void setSalesService(ISaleService salesService) {
+    public void setIsalesService(ISaleService salesService) {
         if (salesService == null) {
             throw new IllegalArgumentException("El servicio de ventas no puede ser nulo");
         }
-        this.salesService = salesService;
+        this.isalesService = salesService;
     }
 
     public void loadSales(Object[][] sales) {
@@ -48,10 +50,10 @@ public class JSalesTable extends javax.swing.JInternalFrame {
 
     public void loadSalesFromService() {
         try {
-            if (salesService == null) {
+            if (isalesService == null) {
                 return;
             }
-            List<Sale> sales = salesService.getAllSales();
+            List<Sale> sales = isalesService.getAllSales();
             
             DefaultTableModel model = (DefaultTableModel) salesTable.getModel();
             model.setRowCount(0);
@@ -150,7 +152,6 @@ public class JSalesTable extends javax.swing.JInternalFrame {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanelShowSales = new javax.swing.JScrollPane();
@@ -182,10 +183,8 @@ public class JSalesTable extends javax.swing.JInternalFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jPanelShowSales;
     private javax.swing.JTable salesTable;
-    // End of variables declaration//GEN-END:variables
 }

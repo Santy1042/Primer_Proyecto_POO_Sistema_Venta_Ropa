@@ -35,26 +35,11 @@ public class SaleRepository implements ISaleRepository {
     }
 
     @Override
-    public void update(Sale sale) {
-        if (sale == null) throw new IllegalArgumentException("La venta no puede ser nula");
-        sales.stream()
-                .filter(s -> s.getId() == sale.getId())
-                .findFirst()
-                .ifPresentOrElse(
-                    s -> {
-                        int index = sales.indexOf(s);
-                        sales.set(index, sale);
-                        persistence.saveSales(sales);
-                    },
-                    () -> {
-                        throw new IllegalArgumentException("No se encontró una venta con el ID especificado");
-                    }
-                );
-    }
-
-    @Override
-    public void delete(int id) {
-        sales.removeIf(s -> s.getId() == id);
-        persistence.saveSales(sales);
+    public boolean delete(int id) {
+        boolean removed = sales.removeIf(s -> s.getId() == id);
+        if (removed) {
+            persistence.saveSales(sales);
+        }
+        return removed;
     }
 }

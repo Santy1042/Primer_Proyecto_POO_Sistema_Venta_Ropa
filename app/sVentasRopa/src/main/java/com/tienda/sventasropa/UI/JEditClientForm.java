@@ -1,7 +1,7 @@
 package com.tienda.sventasropa.UI;
 
+import com.tienda.sventasropa.interfaces.IClientService;
 import com.tienda.sventasropa.model.Client;
-import com.tienda.sventasropa.service.ClientService;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
@@ -11,17 +11,18 @@ import java.util.List;
  */
 public class JEditClientForm extends javax.swing.JInternalFrame {
 
-    private ClientService clientService;
+    private IClientService iclientService;
 
     public JEditClientForm() {
         initComponents();
     }
 
-    public JEditClientForm(ClientService clientService) {
+    public JEditClientForm(IClientService iclientService) {
         initComponents();
-        this.clientService = clientService;
+        this.iclientService = iclientService;
         initTable();
         loadClients();
+        UITheme.apply(this);
     }
 
     private void initTable() {
@@ -48,8 +49,8 @@ public class JEditClientForm extends javax.swing.JInternalFrame {
     private void loadClients() {
         DefaultTableModel model = (DefaultTableModel) tableClients.getModel();
         model.setRowCount(0);
-        if (clientService == null) return;
-        List<Client> clients = clientService.getAllClients();
+        if (iclientService == null) return;
+        List<Client> clients = iclientService.getAllClients();
         for (Client c : clients) {
             model.addRow(new Object[]{
                 c.getId(), c.getName(), c.getLastName(), c.getEmail(), c.getPhoneNumber()
@@ -64,7 +65,7 @@ public class JEditClientForm extends javax.swing.JInternalFrame {
             }
             int id = Integer.parseInt(fieldId.getText().trim());
             Client updatedClient = new Client(id, fieldName.getText().trim(), fieldLastName.getText().trim(), fieldEmail.getText().trim(), fieldPhone.getText().trim());
-            clientService.editClient(id, updatedClient);
+            iclientService.editClient(id, updatedClient);
             JOptionPane.showMessageDialog(this, "Cliente actualizado exitosamente.");
             loadClients();
             clearFields();

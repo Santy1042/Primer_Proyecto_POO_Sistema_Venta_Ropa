@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "client": {
+      "id": 123,
+      "name": "Pepe",
+      "lastName": "Albeiro",
+      "email": "pepealbeiro",
+      "phoneNumber": "1234567890"
+    },
+    "details": [
+      {
+        "productId": 123,
+        "quantity": 4,
+        "product": {
+          "productId": 123,
+          "productName": "Camisa",
+          "productSize": "M",
+          "productColor": "Blanca",
+          "productPrice": 1000.0,
+          "productStock": 81
+        }
+      }
+    ],
+    "date": "2026-05-08T22:55:59.960504100",
+    "subtotal": 4000.0
+  },
+  {
+    "id": 2,
+    "client": {
+      "id": 123,
+      "name": "Pepe",
+      "lastName": "Albeiro",
+      "email": "pepealbeiro",
+      "phoneNumber": "1234567890"
+    },
+    "details": [
+      {
+        "productId": 123,
+        "quantity": 5,
+        "product": {
+          "productId": 123,
+          "productName": "Camisa",
+          "productSize": "M",
+          "productColor": "Blanca",
+          "productPrice": 1000.0,
+          "productStock": 81
+        }
+      }
+    ],
+    "date": "2026-05-08T22:56:02.216657200",
+    "subtotal": 5000.0
+  }
+]

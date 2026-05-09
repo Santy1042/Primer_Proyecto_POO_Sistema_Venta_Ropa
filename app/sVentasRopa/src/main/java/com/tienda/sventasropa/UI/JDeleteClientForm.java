@@ -1,30 +1,31 @@
 package com.tienda.sventasropa.UI;
 
+import com.tienda.sventasropa.interfaces.IClientService;
 import com.tienda.sventasropa.model.Client;
-import com.tienda.sventasropa.service.ClientService;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
 public class JDeleteClientForm extends javax.swing.JInternalFrame {
 
-    private ClientService clientService;
+    private IClientService iclientService;
 
     public JDeleteClientForm() {
         initComponents();
     }
 
-    public JDeleteClientForm(ClientService clientService) {
+    public JDeleteClientForm(IClientService iclientService) {
         initComponents();
-        this.clientService = clientService;
+        this.iclientService = iclientService;
         initTable();
         loadClients();
+        UITheme.apply(this);
     }
 
     private void initTable() {
         tableClients.setModel(new DefaultTableModel(
             new Object[][]{},
-            new String[]{"ID", "Name", "Email", "Phone"}
+            new String[]{"ID", "Name","Last Name", "Email", "Phone"}
         ) {
             @Override
             public boolean isCellEditable(int row, int col) { return false; }
@@ -41,11 +42,11 @@ public class JDeleteClientForm extends javax.swing.JInternalFrame {
     private void loadClients() {
         DefaultTableModel model = (DefaultTableModel) tableClients.getModel();
         model.setRowCount(0);
-        if (clientService == null) return;
-        List<Client> clients = clientService.getAllClients();
-        for (Client c : clients) {
+        if (iclientService == null) return;
+        List<Client> clients = iclientService.getAllClients();
+        for (Client client : clients) {
             model.addRow(new Object[]{
-                c.getId(), c.getName(), c.getEmail(), c.getPhoneNumber()
+                client.getId(), client.getName(), client.getLastName(), client.getEmail(), client.getPhoneNumber()
             });
         }
     }
@@ -62,7 +63,7 @@ public class JDeleteClientForm extends javax.swing.JInternalFrame {
         if (confirm == JOptionPane.YES_OPTION) {
             try {
                 int id = Integer.parseInt(idStr);
-                clientService.deleteClient(id);
+                iclientService.deleteClient(id);
                 loadClients();
                 fieldSearchId.setText("");
                 JOptionPane.showMessageDialog(this, "Client deleted successfully.");

@@ -1,26 +1,28 @@
 package com.tienda.sventasropa.UI;
 
+import com.tienda.sventasropa.interfaces.IClientService;
 import com.tienda.sventasropa.model.Client;
-import com.tienda.sventasropa.service.ClientService;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 
 /**
  * @author marco
  */
 public class JAddClientForm extends javax.swing.JInternalFrame {
 
-    private ClientService clientService;
+    private IClientService iclientService;
 
     public JAddClientForm() {
         initComponents();
     }
 
-    public JAddClientForm(ClientService clientService) {
+    public JAddClientForm(IClientService iclientService) {
         initComponents();
-        this.clientService = clientService;
+        this.iclientService = iclientService;
         initTable();
         loadClients();
+        UITheme.apply(this); 
     }
 
     private void initTable() {
@@ -36,15 +38,15 @@ public class JAddClientForm extends javax.swing.JInternalFrame {
     private void loadClients() {
         DefaultTableModel model = (DefaultTableModel) tableClients.getModel();
         model.setRowCount(0);
-        if (clientService == null) return;
+        if (iclientService == null) return;
         
-        for (Client c : clientService.getAllClients()) {
+        for (Client cliente : iclientService.getAllClients()) {
             model.addRow(new Object[]{
-                c.getId(), 
-                c.getName(), 
-                c.getLastName(), 
-                c.getEmail(), 
-                c.getPhoneNumber()
+                cliente.getId(), 
+                cliente.getName(), 
+                cliente.getLastName(), 
+                cliente.getEmail(), 
+                cliente.getPhoneNumber()
             });
         }
     }
@@ -62,7 +64,7 @@ public class JAddClientForm extends javax.swing.JInternalFrame {
             }
 
             Client newClient = new Client(id, name, lastName, email, phone);
-            clientService.registerClient(newClient);
+            iclientService.registerClient(newClient);
 
             loadClients();
             clearFields();
@@ -108,7 +110,6 @@ public class JAddClientForm extends javax.swing.JInternalFrame {
         setTitle("Client Management");
         setPreferredSize(new java.awt.Dimension(800, 500));
 
-        // Ajustado a 6 filas para incluir Last Name
         panelTop.setBackground(new java.awt.Color(0, 204, 204));
         panelTop.setBorder(javax.swing.BorderFactory.createTitledBorder("Client Data"));
         panelTop.setLayout(new java.awt.GridLayout(6, 2, 8, 8));

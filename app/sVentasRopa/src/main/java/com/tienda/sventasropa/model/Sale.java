@@ -49,11 +49,20 @@ public class Sale {
         this.client = client;
     }
 
-    public void addDetail(SaleDetail detail) {
-        if (detail == null) {
+    public void addDetail(SaleDetail newDetail) {
+        if (newDetail == null) {
             throw new IllegalArgumentException("El detalle de venta no puede ser nulo");
         }
-        details.add(detail);
+
+        for (SaleDetail existingDetail : details) {
+            if (existingDetail.getProductId() == newDetail.getProductId()) {
+                existingDetail.addQuantity(newDetail.getQuantity());
+                actualizarSubtotal();
+                return;
+            }
+        }
+        
+        details.add(newDetail);
         actualizarSubtotal();
     }
 

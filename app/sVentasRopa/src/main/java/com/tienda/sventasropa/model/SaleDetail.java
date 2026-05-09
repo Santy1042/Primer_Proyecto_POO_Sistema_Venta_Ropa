@@ -27,6 +27,10 @@ public class SaleDetail {
 
     public int getQuantity() { return quantity; }
 
+    public void addQuantity(int extraQuantity) {
+        this.quantity += extraQuantity;
+    }
+
     public double getUnitPrice() {
         if (product == null) {
             throw new IllegalStateException("El producto no está asignado");

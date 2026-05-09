@@ -1,5 +1,11 @@
 package com.tienda.sventasropa.UI;
 
+import com.tienda.sventasropa.interfaces.IClientRepository;
+import com.tienda.sventasropa.interfaces.IClientService;
+import com.tienda.sventasropa.interfaces.IProductRepository;
+import com.tienda.sventasropa.interfaces.IProductService;
+import com.tienda.sventasropa.interfaces.ISaleRepository;
+import com.tienda.sventasropa.interfaces.ISaleService;
 import com.tienda.sventasropa.json.ClientPersistence;
 import com.tienda.sventasropa.json.ProductPersistence;
 import com.tienda.sventasropa.json.SalePersistence;
@@ -15,26 +21,26 @@ import java.awt.*;
 public class MainFrame extends JFrame {
 
     private JDesktopPane desktopPane;
-    private ClientService clientService;
-    private ProductService productService;
-    private SaleService saleService;
+    private IClientService iclientService;
+    private IProductService iproductService;
+    private ISaleService iSaleService;
     
-    private ClientRepository clientRepo;
-    private ProductRepository productRepo;
-    private SaleRepository saleRepository;
+    private IClientRepository iclientRepo;
+    private IProductRepository iproductRepo;
+    private ISaleRepository isaleRepository;
     
     public MainFrame() {
         ClientPersistence clientPersistence = new ClientPersistence();
         ProductPersistence productPersistence = new ProductPersistence();
         SalePersistence salePersistence = new SalePersistence();
       
-        clientRepo = new ClientRepository(clientPersistence);
-        productRepo = new ProductRepository(productPersistence);
-        saleRepository = new SaleRepository(salePersistence);
+        iclientRepo = new ClientRepository(clientPersistence);
+        iproductRepo = new ProductRepository(productPersistence);
+        isaleRepository = new SaleRepository(salePersistence);
 
-        clientService = new ClientService(clientRepo);
-        productService = new ProductService(productRepo);
-        saleService = new SaleService(saleRepository, productRepo, clientService);
+        iclientService = new ClientService(iclientRepo);
+        iproductService = new ProductService(iproductRepo);
+        iSaleService = new SaleService(isaleRepository, iproductRepo, iclientService);
 
         initComponents();
     }
@@ -100,12 +106,15 @@ public class MainFrame extends JFrame {
         menuSales.setFont(new Font("Segoe UI", Font.BOLD, 13));
 
         JMenuItem menuCreateSale = createMenuItem("   Create New Sale");
+        JMenuItem menuDeleteSale = createMenuItem("   Delete Sale");
         JMenuItem menuViewSales = createMenuItem("   View Sales History");
 
         menuCreateSale.addActionListener(e -> openCreateSaleForm());
+        menuDeleteSale.addActionListener(e -> openDeleteSaleForm());
         menuViewSales.addActionListener(e -> openSalesTable());
         
         menuSales.add(menuCreateSale);
+        menuSales.add(menuDeleteSale);
         menuSales.addSeparator();
         menuSales.add(menuViewSales);
         menuBar.add(menuSales);
@@ -129,62 +138,96 @@ public class MainFrame extends JFrame {
         return item;
     }
 
+    private boolean isWindowOpen(Class<?> frameClass) {
+        for (JInternalFrame frame : desktopPane.getAllFrames()) {
+            if (frame.getClass().equals(frameClass)) {
+                try {
+                    frame.setSelected(true);
+                    if (frame.isIcon()) {
+                        frame.setIcon(false);
+                    }
+                } catch (java.beans.PropertyVetoException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void openClientForm() {
-        JAddClientForm frame = new JAddClientForm(clientService);
+        if (isWindowOpen(JAddClientForm.class)) return;
+        JAddClientForm frame = new JAddClientForm(iclientService);
         desktopPane.add(frame);
         frame.setVisible(true);
     }
 
     private void openEditClientForm() {
-        JEditClientForm frame = new JEditClientForm(clientService);
+        if (isWindowOpen(JEditClientForm.class)) return;
+        JEditClientForm frame = new JEditClientForm(iclientService);
         desktopPane.add(frame);
         frame.setVisible(true);
     }
 
     private void openDeleteClientForm() {
-        JDeleteClientForm frame = new JDeleteClientForm(clientService);
+        if (isWindowOpen(JDeleteClientForm.class)) return;
+        JDeleteClientForm frame = new JDeleteClientForm(iclientService);
         desktopPane.add(frame);
         frame.setVisible(true);
     }
 
     private void openClientsTable() {
-        JClientTable frame = new JClientTable(clientService);
+        if (isWindowOpen(JClientTable.class)) return;
+        JClientTable frame = new JClientTable(iclientService);
         desktopPane.add(frame);
         frame.setVisible(true);
     }
     
     private void openAddProductForm() {
-        JAddProductForm frame = new JAddProductForm(productService);
+        if (isWindowOpen(JAddProductForm.class)) return;
+        JAddProductForm frame = new JAddProductForm(iproductService);
         desktopPane.add(frame);
         frame.setVisible(true);
     }
 
     private void openEditProductForm() {
-        JEditProductForm frame = new JEditProductForm(productService);
+        if (isWindowOpen(JEditProductForm.class)) return;
+        JEditProductForm frame = new JEditProductForm(iproductService);
         desktopPane.add(frame);
         frame.setVisible(true);
     }
 
     private void openDeleteProductForm() {
-        JDeleteProductForm frame = new JDeleteProductForm(productService);
+        if (isWindowOpen(JDeleteProductForm.class)) return;
+        JDeleteProductForm frame = new JDeleteProductForm(iproductService);
         desktopPane.add(frame);
         frame.setVisible(true);
     }
 
     private void openProductsTable() {
-        JProductsTable frame = new JProductsTable(productService);
+        if (isWindowOpen(JProductsTable.class)) return;
+        JProductsTable frame = new JProductsTable(iproductService);
         desktopPane.add(frame);
         frame.setVisible(true);
     }
 
     private void openCreateSaleForm() {
-        JCreateSale frame = new JCreateSale(saleService, clientRepo, productRepo);
+        if (isWindowOpen(JCreateSale.class)) return;
+        JCreateSale frame = new JCreateSale(iSaleService, iclientRepo, iproductRepo);
         desktopPane.add(frame);
         frame.setVisible(true);
     }
 
     private void openSalesTable() {
-        JSalesTable frame = new JSalesTable(saleService);
+        if (isWindowOpen(JSalesTable.class)) return;
+        JSalesTable frame = new JSalesTable(iSaleService);
+        desktopPane.add(frame);
+        frame.setVisible(true);
+    }
+
+    private void openDeleteSaleForm() {
+        if (isWindowOpen(JDeleteSaleForm.class)) return;
+        JDeleteSaleForm frame = new JDeleteSaleForm(iSaleService);
         desktopPane.add(frame);
         frame.setVisible(true);
     }

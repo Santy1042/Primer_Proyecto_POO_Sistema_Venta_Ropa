@@ -55,6 +55,9 @@ public class SaleService implements ISaleService {
         }
         
         product.setProductStock(product.getProductStock() - quantity);
+        
+        productRepository.updateProduct(product.getProductId(), product); 
+        
         sale.addDetail(saledetail);
     }
 
@@ -66,18 +69,27 @@ public class SaleService implements ISaleService {
         repository.save(sale);
     }
 
-    @Override
-    public void updateSale(Sale sale) {
-        if (sale == null) throw new IllegalArgumentException("La venta no puede ser nula");
-        if (!sale.hasDetails()) throw new IllegalArgumentException("La venta debe tener al menos un artículo");
-        if (sale.getClient() == null) throw new IllegalArgumentException("El cliente no puede ser nulo");
-        repository.update(sale);
-    }
-
-    @Override
-    public void deleteSale(int id) {
+   @Override
+    public boolean deleteSale(int id) {
         if (id <= 0) throw new IllegalArgumentException("El ID de la venta debe ser mayor a 0");
-        repository.delete(id);
+
+        Optional<Sale> optSale = repository.findById(id);
+        
+        if (optSale.isPresent()) {
+            Sale saleToDelete = optSale.get();
+            
+            for (SaleDetail detail : saleToDelete.getDetails()) {
+                com.tienda.sventasropa.model.Product product = productRepository.findProductById(detail.getProductId());
+                
+                if (product != null) {
+                    product.setProductStock(product.getProductStock() + detail.getQuantity());
+            
+                    productRepository.updateProduct(product.getProductId(), product); 
+                }
+            }
+            return repository.delete(id);
+        }
+        return false;
     }
 
     @Override
@@ -96,5 +108,17 @@ public class SaleService implements ISaleService {
         return repository.list().stream()
                 .mapToDouble(Sale::getTotal)
                 .sum();
+    }
+
+    @Override
+    public int getNextSaleId() {
+        List<Sale> allSales = repository.list();
+        if (allSales == null || allSales.isEmpty()) {
+            return 1;
+        }
+        return allSales.stream()
+                       .mapToInt(Sale::getId)
+                       .max()
+                       .getAsInt() + 1;
     }
 }

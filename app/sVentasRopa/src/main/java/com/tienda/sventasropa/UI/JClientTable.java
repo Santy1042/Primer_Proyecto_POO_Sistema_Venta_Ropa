@@ -4,53 +4,50 @@
  */
 package com.tienda.sventasropa.UI;
 
+import com.tienda.sventasropa.interfaces.IClientService;
 import com.tienda.sventasropa.model.Client;
-import com.tienda.sventasropa.service.ClientService;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
-<<<<<<< HEAD
- * Internal frame that displays clients in a table.
- * This frame can be added to a JDesktopPane for MDI-style display.
-=======
  * JFrame que sera usado cuando el usuario quiera ver los clientes registrados.
  * Se llamará atravez de un menu MDI
->>>>>>> origin/develop
  * @author Christopher
  */
 public class JClientTable extends javax.swing.JInternalFrame {
 
-    private ClientService clientService;
+    private IClientService iclientService;
 
     public JClientTable() {
         initComponents();
         initClientTable();
     }
 
-    public JClientTable(ClientService clientService) {
+    public JClientTable(IClientService iclientService) {
         this();
-        this.clientService = clientService;
+        this.iclientService = iclientService;
         loadClients();
+        UITheme.apply(this);
     }
 
-    public void setClientService(ClientService clientService) {
-        this.clientService = clientService;
+    public void setClientService(IClientService iclientService) {
+        this.iclientService = iclientService;
     }
 
     public void loadClients() {
         DefaultTableModel model = (DefaultTableModel) clientTable.getModel();
         model.setRowCount(0);
 
-        if (clientService == null) {
+        if (iclientService == null) {
             return;
         }
 
-        List<Client> clients = clientService.getAllClients();
+        List<Client> clients = iclientService.getAllClients();
         for (Client client : clients) {
             model.addRow(new Object[]{
                 client.getId(),
                 client.getName(),
+                client.getLastName(),
                 client.getEmail(),
                 client.getPhoneNumber()
             });
@@ -60,9 +57,9 @@ public class JClientTable extends javax.swing.JInternalFrame {
     private void initClientTable() {
         clientTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object[][]{},
-            new String[]{"ID", "Nombre", "Correo", "Teléfono"}
+            new String[]{"ID", "Nombre", "Apellido", "Correo", "Teléfono"}
         ) {
-            boolean[] canEdit = new boolean[]{false, false, false, false};
+            boolean[] canEdit = new boolean[]{false, false, false, false, false};
 
             @Override
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -76,7 +73,7 @@ public class JClientTable extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         Background = new javax.swing.JPanel();
-        Scroll = new javax.swing.JScrollPane();
+        ScrollClientTable = new javax.swing.JScrollPane();
         clientTable = new javax.swing.JTable();
 
         setClosable(true);
@@ -89,19 +86,19 @@ public class JClientTable extends javax.swing.JInternalFrame {
 
         clientTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object[][]{},
-            new String[]{"ID", "Nombre", "Correo", "Teléfono"}
+            new String[]{"ID", "Nombre", "Apellido", "Correo", "Teléfono"}
         ));
-        Scroll.setViewportView(clientTable);
+        ScrollClientTable.setViewportView(clientTable);
 
         javax.swing.GroupLayout BackgroundLayout = new javax.swing.GroupLayout(Background);
         Background.setLayout(BackgroundLayout);
         BackgroundLayout.setHorizontalGroup(
             BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+            .addComponent(ScrollClientTable, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
         );
         BackgroundLayout.setVerticalGroup(
             BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+            .addComponent(ScrollClientTable, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -124,6 +121,6 @@ public class JClientTable extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Background;
     private javax.swing.JTable clientTable;
-    private javax.swing.JScrollPane Scroll;
+    private javax.swing.JScrollPane ScrollClientTable;
     // End of variables declaration//GEN-END:variables
 }
