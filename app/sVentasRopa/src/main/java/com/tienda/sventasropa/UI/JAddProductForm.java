@@ -3,6 +3,8 @@ package com.tienda.sventasropa.UI;
 import com.tienda.sventasropa.service.ProductService;
 import javax.swing.JOptionPane;
 import java.awt.Dimension;
+import javax.swing.table.DefaultTableModel;
+import com.tienda.sventasropa.model.Product;
 
 public class JAddProductForm extends javax.swing.JInternalFrame {
 
@@ -23,10 +25,53 @@ public class JAddProductForm extends javax.swing.JInternalFrame {
     public JAddProductForm(ProductService productService) {
         this.productService = productService;
         initComponents();
+        initTable();
+        loadProductsTable();
         UITheme.apply(this);
-        setSize(600, 450);
-        setMinimumSize(new Dimension(600, 450));
-        setResizable(true);
+    }
+    
+    private void initTable() {
+
+    tblProducts.setModel(
+        new DefaultTableModel(
+            new Object[][]{},
+            new String[]{
+                "ID",
+                "Name",
+                "Size",
+                "Color",
+                "Price",
+                "Stock"
+            }
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        }
+    );
+    }
+    
+    private void loadProductsTable() {
+
+    DefaultTableModel model =
+        (DefaultTableModel) tblProducts.getModel();
+
+    model.setRowCount(0);
+
+    if (productService == null) return;
+
+    for (Product product : productService.getAllProducts()) {
+
+        model.addRow(new Object[]{
+            product.getProductId(),
+            product.getProductName(),
+            product.getProductSize(),
+            product.getProductColor(),
+            product.getProductPrice(),
+            product.getProductStock()
+        });
+    }
     }
 
     @SuppressWarnings("unchecked")
@@ -212,6 +257,7 @@ public class JAddProductForm extends javax.swing.JInternalFrame {
             // Aquí atrapamos las validaciones estrictas de tu ProductService y mostramos tu mensaje personalizado
             JOptionPane.showMessageDialog(this, e.getMessage(), "Atención", JOptionPane.WARNING_MESSAGE);
         }
+        loadProductsTable();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed

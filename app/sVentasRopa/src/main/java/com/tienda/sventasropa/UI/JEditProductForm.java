@@ -4,6 +4,8 @@ import com.tienda.sventasropa.model.Product;
 import com.tienda.sventasropa.service.ProductService;
 import javax.swing.JOptionPane;
 import java.awt.Dimension;
+import javax.swing.table.DefaultTableModel;
+import com.tienda.sventasropa.model.Product;
 
 public class JEditProductForm extends javax.swing.JInternalFrame {
 
@@ -19,14 +21,62 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
         setMinimumSize(new Dimension(600, 450));
         setResizable(true);
     }
+    
 
-    /**
-     * Constructor para tu MainFrame
-     */
     public JEditProductForm(ProductService productService) {
-        this.productService = productService;
-        initComponents();
-        UITheme.apply(this);
+
+    this.productService = productService;
+
+    initComponents();
+
+    initTable();
+
+    loadProductsTable();
+
+    UITheme.apply(this);
+    }
+    
+    private void initTable() {
+
+    tblProducts.setModel(
+        new DefaultTableModel(
+            new Object[][]{},
+            new String[]{
+                "ID",
+                "Name",
+                "Size",
+                "Color",
+                "Price",
+                "Stock"
+            }
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        }
+    );
+    }
+    
+    private void loadProductsTable() {
+
+    DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
+
+    model.setRowCount(0);
+
+    if (productService == null) return;
+
+    for (Product product : productService.getAllProducts()) {
+
+        model.addRow(new Object[]{
+            product.getProductId(),
+            product.getProductName(),
+            product.getProductSize(),
+            product.getProductColor(),
+            product.getProductPrice(),
+            product.getProductStock()
+        });
+    }
     }
 
     @SuppressWarnings("unchecked")
@@ -119,6 +169,11 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
         tblProducts.setRowHeight(28);
         tblProducts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblProducts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblProducts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductsMouseClicked(evt);
+            }
+        });
         scrollProductsTable.setViewportView(tblProducts);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -219,6 +274,7 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
             // Se atrapa el mensaje de "No se encontró el producto" y limpiamos por seguridad
             JOptionPane.showMessageDialog(this, e.getMessage(), "No Encontrado", JOptionPane.WARNING_MESSAGE);
             btnClearActionPerformed(null);
+            loadProductsTable();
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -242,6 +298,7 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
             if (productService != null && productService.updateProduct(id, name, size, color, price, stock)) {
                 JOptionPane.showMessageDialog(this, "Producto actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 btnClearActionPerformed(null); // Limpiar y preparar para otra edición
+                
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Por favor verifique que el Precio y Stock sean valores numéricos válidos.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
@@ -261,6 +318,34 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
         txtStock.setText("");
         txtId.requestFocus();
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void tblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductsMouseClicked
+        int row = tblProducts.getSelectedRow();
+
+        txtId.setText(
+            tblProducts.getValueAt(row, 0).toString()
+        );
+
+        txtName.setText(
+            tblProducts.getValueAt(row, 1).toString()
+        );
+
+        txtSize.setText(
+            tblProducts.getValueAt(row, 2).toString()
+        );
+
+        txtColor.setText(
+            tblProducts.getValueAt(row, 3).toString()
+        );
+
+        txtPrice.setText(
+            tblProducts.getValueAt(row, 4).toString()
+        );
+
+        txtStock.setText(
+            tblProducts.getValueAt(row, 5).toString()
+        );
+    }//GEN-LAST:event_tblProductsMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;

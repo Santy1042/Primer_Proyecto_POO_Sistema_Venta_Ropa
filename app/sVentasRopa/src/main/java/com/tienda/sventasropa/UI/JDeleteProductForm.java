@@ -4,6 +4,8 @@ import com.tienda.sventasropa.model.Product;
 import com.tienda.sventasropa.service.ProductService;
 import javax.swing.JOptionPane;
 import java.awt.Dimension;
+import javax.swing.table.DefaultTableModel;
+import com.tienda.sventasropa.model.Product;
 
 public class JDeleteProductForm extends javax.swing.JInternalFrame {
 
@@ -24,9 +26,60 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
      * Constructor para tu MainFrame
      */
     public JDeleteProductForm(ProductService productService) {
-        this.productService = productService;
-        initComponents();
-        UITheme.apply(this);
+
+    this.productService = productService;
+
+    initComponents();
+
+    initTable();
+
+    loadProductsTable();
+
+    UITheme.apply(this);
+    }
+    
+    private void initTable() {
+
+    tblProducts.setModel(
+        new DefaultTableModel(
+            new Object[][]{},
+            new String[]{
+                "ID",
+                "Name",
+                "Size",
+                "Color",
+                "Price",
+                "Stock"
+            }
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        }
+    );
+    }
+    
+    private void loadProductsTable() {
+
+    DefaultTableModel model =
+        (DefaultTableModel) tblProducts.getModel();
+
+    model.setRowCount(0);
+
+    if (productService == null) return;
+
+    for (Product product : productService.getAllProducts()) {
+
+        model.addRow(new Object[]{
+            product.getProductId(),
+            product.getProductName(),
+            product.getProductSize(),
+            product.getProductColor(),
+            product.getProductPrice(),
+            product.getProductStock()
+        });
+    }
     }
 
     @SuppressWarnings("unchecked")
@@ -129,6 +182,11 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
         tblProducts.setRowHeight(28);
         tblProducts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblProducts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblProducts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductsMouseClicked(evt);
+            }
+        });
         scrollProductsTable.setViewportView(tblProducts);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -228,6 +286,7 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
             // Atrapa el "No se encontró un producto con el ID especificado" del ProductService
             JOptionPane.showMessageDialog(this, e.getMessage(), "No Encontrado", JOptionPane.WARNING_MESSAGE);
             btnClearActionPerformed(null); // Limpiar si no lo encuentra para evitar datos fantasmas
+            loadProductsTable();
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -269,6 +328,14 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
         txtStock.setText("");
         txtId.requestFocus();
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void tblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductsMouseClicked
+        int row = tblProducts.getSelectedRow();
+
+        txtId.setText(
+        tblProducts.getValueAt(row, 0).toString()
+);
+    }//GEN-LAST:event_tblProductsMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
