@@ -39,6 +39,12 @@ public class ClientService implements IClientService {
         if (client.getEmail() == null || client.getEmail().trim().isEmpty()) {
             throw new IllegalArgumentException("El email es obligatorio.");
         }
+        if(client.getPhoneNumber() == null || client.getPhoneNumber().trim().isEmpty()) {
+            throw new IllegalArgumentException("El número de teléfono es obligatorio.");
+        }
+        if(client.getPhoneNumber().length() != 10) {
+            throw new IllegalArgumentException("El número de teléfono debe tener 10 dígitos.");
+        }
         if (findClientById(client.getId()) != null) {
             throw new IllegalArgumentException("Ya existe un cliente con esa cédula.");
         }
@@ -71,7 +77,13 @@ public class ClientService implements IClientService {
         if (datosNuevos.getEmail() == null || datosNuevos.getEmail().trim().isEmpty()) {
             throw new IllegalArgumentException("El email es obligatorio.");
         }
-        
+        if(datosNuevos.getPhoneNumber() == null || datosNuevos.getPhoneNumber().trim().isEmpty()) {
+            throw new IllegalArgumentException("El número de teléfono es obligatorio.");
+        }
+        if(datosNuevos.getPhoneNumber().length() != 10) {
+            throw new IllegalArgumentException("El número de teléfono debe tener 10 dígitos.");
+        }
+
         // Editar cliente
         clientRepository.editClient(id, datosNuevos);
     }

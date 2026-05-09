@@ -9,7 +9,7 @@ public class Sale {
     private int id;
     private Client client;
     private final List<SaleDetail> details = new ArrayList<>();
-    private final LocalDateTime date = LocalDateTime.now();
+    private LocalDateTime date;
     private double subtotal;
 
     public Sale(int id, Client client) {
@@ -18,6 +18,18 @@ public class Sale {
         }
         this.id = id;
         this.client = client;
+        this.date = LocalDateTime.now();
+        this.subtotal = 0;
+    }
+
+    // Constructor adicional para cargar desde persistencia
+    public Sale(int id, Client client, LocalDateTime date) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("El ID de la venta debe ser mayor a 0");
+        }
+        this.id = id;
+        this.client = client;
+        this.date = date;
         this.subtotal = 0;
     }
 

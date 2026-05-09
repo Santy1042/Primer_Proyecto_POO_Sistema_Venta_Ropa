@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 public class JSalesTable extends javax.swing.JInternalFrame {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    private ISaleService salesService;
+    private ISaleService isalesService;
 
     public JSalesTable() {
         initComponents();
@@ -22,17 +22,17 @@ public class JSalesTable extends javax.swing.JInternalFrame {
     }
 
     public JSalesTable(ISaleService salesService) {
-        this.salesService = salesService;
+        this.isalesService = salesService;
         initComponents();
         initSalesTable();
         loadSalesFromService();
     }
 
-    public void setSalesService(ISaleService salesService) {
+    public void setIsalesService(ISaleService salesService) {
         if (salesService == null) {
             throw new IllegalArgumentException("El servicio de ventas no puede ser nulo");
         }
-        this.salesService = salesService;
+        this.isalesService = salesService;
     }
 
     public void loadSales(Object[][] sales) {
@@ -48,10 +48,10 @@ public class JSalesTable extends javax.swing.JInternalFrame {
 
     public void loadSalesFromService() {
         try {
-            if (salesService == null) {
+            if (isalesService == null) {
                 return;
             }
-            List<Sale> sales = salesService.getAllSales();
+            List<Sale> sales = isalesService.getAllSales();
             
             DefaultTableModel model = (DefaultTableModel) salesTable.getModel();
             model.setRowCount(0);

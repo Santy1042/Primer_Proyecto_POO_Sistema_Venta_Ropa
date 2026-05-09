@@ -4,8 +4,8 @@
  */
 package com.tienda.sventasropa.UI;
 
+import com.tienda.sventasropa.interfaces.IProductService;
 import com.tienda.sventasropa.model.Product;
-import com.tienda.sventasropa.service.ProductService;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,22 +16,22 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JProductsTable extends javax.swing.JInternalFrame {
 
-    private ProductService productService;
+    private IProductService iproductService;
 
     public JProductsTable() {
         initComponents();
         initProductsTable();
     }
 
-    public JProductsTable(ProductService productService) {
+    public JProductsTable(IProductService iproductService) {
         this();
-        this.productService = productService;
+        this.iproductService = iproductService;
         loadProductsFromService();
         UITheme.apply(this);
     }
 
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
+    public void setProductService(IProductService iproductService) {
+        this.iproductService = iproductService;
     }
 
     public void loadProducts(Object[][] products) {
@@ -49,11 +49,11 @@ public class JProductsTable extends javax.swing.JInternalFrame {
         DefaultTableModel model = (DefaultTableModel) productsTable.getModel();
         model.setRowCount(0);
 
-        if (productService == null) {
+        if (iproductService == null) {
             return;
         }
 
-        List<Product> products = productService.getAllProducts();
+        List<Product> products = iproductService.getAllProducts();
         for (Product product : products) {
             model.addRow(new Object[]{
                 product.getProductId(),
