@@ -59,9 +59,9 @@ public class JAddProductForm extends javax.swing.JInternalFrame {
 
     model.setRowCount(0);
 
-    if (productService == null) return;
+    if (iproductService == null) return;
 
-    for (Product product : productService.getAllProducts()) {
+    for (Product product : iproductService.getAllProducts()) {
 
         model.addRow(new Object[]{
             product.getProductId(),

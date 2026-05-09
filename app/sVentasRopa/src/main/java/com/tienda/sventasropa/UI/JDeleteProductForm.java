@@ -1,7 +1,7 @@
 package com.tienda.sventasropa.UI;
 
 import com.tienda.sventasropa.model.Product;
-import com.tienda.sventasropa.service.ProductService;
+import com.tienda.sventasropa.interfaces.IProductService;
 import javax.swing.JOptionPane;
 import java.awt.Dimension;
 import javax.swing.table.DefaultTableModel;
@@ -9,7 +9,7 @@ import com.tienda.sventasropa.model.Product;
 
 public class JDeleteProductForm extends javax.swing.JInternalFrame {
 
-    private final ProductService productService;
+    private final IProductService productService;
 
     /**
      * Constructor para NetBeans
@@ -25,7 +25,7 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
     /**
      * Constructor para tu MainFrame
      */
-    public JDeleteProductForm(ProductService productService) {
+    public JDeleteProductForm(IProductService productService) {
 
     this.productService = productService;
 
@@ -331,10 +331,13 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
 
     private void tblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductsMouseClicked
         int row = tblProducts.getSelectedRow();
-
-        txtId.setText(
-        tblProducts.getValueAt(row, 0).toString()
-);
+        txtId.setText(tblProducts.getValueAt(row, 0).toString());
+        txtName.setText(tblProducts.getValueAt(row, 1).toString());
+        txtSize.setText(tblProducts.getValueAt(row, 2).toString());
+        txtColor.setText(tblProducts.getValueAt(row, 3).toString());
+        txtPrice.setText(tblProducts.getValueAt(row, 4).toString());
+        txtStock.setText(tblProducts.getValueAt(row, 5).toString());
+        txtId.setEditable(false);
     }//GEN-LAST:event_tblProductsMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

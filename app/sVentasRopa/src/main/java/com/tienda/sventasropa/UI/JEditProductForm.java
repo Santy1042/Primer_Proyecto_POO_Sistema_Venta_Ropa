@@ -1,7 +1,7 @@
 package com.tienda.sventasropa.UI;
 
 import com.tienda.sventasropa.model.Product;
-import com.tienda.sventasropa.service.ProductService;
+import com.tienda.sventasropa.interfaces.IProductService;
 import javax.swing.JOptionPane;
 import java.awt.Dimension;
 import javax.swing.table.DefaultTableModel;
@@ -9,7 +9,7 @@ import com.tienda.sventasropa.model.Product;
 
 public class JEditProductForm extends javax.swing.JInternalFrame {
 
-    private final ProductService productService;
+    private final IProductService productService;
 
     /**
      * Constructor para NetBeans
@@ -23,7 +23,7 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
     }
     
 
-    public JEditProductForm(ProductService productService) {
+    public JEditProductForm(IProductService productService) {
 
     this.productService = productService;
 
@@ -345,6 +345,8 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
         txtStock.setText(
             tblProducts.getValueAt(row, 5).toString()
         );
+
+        txtId.setEditable(false);
     }//GEN-LAST:event_tblProductsMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
