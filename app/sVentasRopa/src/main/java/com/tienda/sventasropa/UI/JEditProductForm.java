@@ -297,19 +297,17 @@ public class JEditProductForm extends javax.swing.JInternalFrame {
             // 3. Delegar al Servicio
             if (productService != null && productService.updateProduct(id, name, size, color, price, stock)) {
                 JOptionPane.showMessageDialog(this, "Producto actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                btnClearActionPerformed(null); // Limpiar y preparar para otra edición
+                btnClearActionPerformed(null);
                 
-                // --> LÍNEA AGREGADA: Recargar la tabla para mostrar los cambios <--
                 loadProductsTable(); 
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Por favor verifique que el Precio y Stock sean valores numéricos válidos.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException e) {
-            // 4. Atrapar rechazos del negocio (ej. "El nombre es muy largo", "El precio es negativo")
             JOptionPane.showMessageDialog(this, e.getMessage(), "Atención", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
-    
+
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         txtId.setText("");
         txtId.setEditable(true); // Desbloqueamos el ID para una nueva búsqueda

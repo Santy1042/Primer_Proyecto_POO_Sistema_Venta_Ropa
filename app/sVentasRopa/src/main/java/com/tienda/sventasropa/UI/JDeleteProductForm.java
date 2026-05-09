@@ -291,7 +291,6 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // 1. Verificar que hayamos buscado un producto primero (UI check básico)
         if (txtName.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor busque un producto antes de eliminarlo.", "Información", JOptionPane.INFORMATION_MESSAGE);
             return;
@@ -300,20 +299,21 @@ public class JDeleteProductForm extends javax.swing.JInternalFrame {
         try {
             int id = Integer.parseInt(txtId.getText().trim());
             
-            // 2. Confirmación del usuario
             int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar este producto?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             
             if (confirm == JOptionPane.YES_OPTION) {
-                // 3. Delegar eliminación al Servicio
                 if (productService != null && productService.deleteProduct(id)) {
                     JOptionPane.showMessageDialog(this, "Producto eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     btnClearActionPerformed(null); // Limpiar tras borrar
+                    
+                    // ACTUALIZACIÓN AQUÍ: Recargar la tabla con los datos más recientes
+                    loadProductsTable(); 
                 }
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "El ID no tiene un formato válido.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException e) {
-            // 4. Atrapar cualquier rechazo de la capa de negocio (ej. el producto fue borrado por otro usuario un segundo antes)
+            // Atrapar cualquier rechazo de la capa de negocio
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed

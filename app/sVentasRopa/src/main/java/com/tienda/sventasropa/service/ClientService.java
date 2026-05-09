@@ -24,9 +24,11 @@ public class ClientService implements IClientService {
         this.clientRepository = clientRepository;
     }
 
+    private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+    private static final String PHONE_REGEX = "^\\d+$";
+
     @Override
     public void registerClient(Client client) {
-        // Validaciones
         if (client == null) {
             throw new IllegalArgumentException("El cliente no puede ser nulo.");
         }
@@ -36,20 +38,28 @@ public class ClientService implements IClientService {
         if (client.getLastName() == null || client.getLastName().trim().isEmpty()) {
             throw new IllegalArgumentException("El apellido es obligatorio.");
         }
+        
         if (client.getEmail() == null || client.getEmail().trim().isEmpty()) {
             throw new IllegalArgumentException("El email es obligatorio.");
         }
+        if (!client.getEmail().matches(EMAIL_REGEX)) {
+            throw new IllegalArgumentException("El formato del email es inválido (ejemplo válido: usuario@dominio.com).");
+        }
+
         if(client.getPhoneNumber() == null || client.getPhoneNumber().trim().isEmpty()) {
             throw new IllegalArgumentException("El número de teléfono es obligatorio.");
         }
-        if(client.getPhoneNumber().length() != 10) {
-            throw new IllegalArgumentException("El número de teléfono debe tener 10 dígitos.");
+        if (!client.getPhoneNumber().matches(PHONE_REGEX)) {
+            throw new IllegalArgumentException("El número de teléfono solo puede contener números, sin letras ni espacios.");
         }
+        if(client.getPhoneNumber().length() != 10) {
+            throw new IllegalArgumentException("El número de teléfono debe tener exactamente 10 dígitos.");
+        }
+        
         if (findClientById(client.getId()) != null) {
             throw new IllegalArgumentException("Ya existe un cliente con esa cédula.");
         }
         
-        // Guardar cliente
         boolean guardado = clientRepository.save(client);
         if (!guardado) {
             throw new RuntimeException("No se pudo guardar el cliente.");
