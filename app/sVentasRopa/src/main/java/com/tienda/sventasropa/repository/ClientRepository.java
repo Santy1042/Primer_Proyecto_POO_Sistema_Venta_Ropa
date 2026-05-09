@@ -4,29 +4,70 @@
  */
 package com.tienda.sventasropa.repository;
 
-import com.tienda.sventasropa.model.Client;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tienda.sventasropa.interfaces.IClientPersistence;
+import com.tienda.sventasropa.interfaces.IClientRepository;
+import com.tienda.sventasropa.model.Client;
+
 /**
- *
- * @author Santy
+ * Implementación del repositorio de clientes
+ * Gestiona la persistencia de datos de clientes en memoria
  */
 public class ClientRepository implements IClientRepository {
     private final List<Client> clients;
+    private final IClientPersistence persistence;
     
-    public ClientRepository() {
-        this.clients = new ArrayList<>();
+    public ClientRepository(IClientPersistence persistence) {
+        this.persistence = persistence;
+        this.clients = this.persistence.loadClients();
     }
     
     @Override
-    public void save(Client cliente) {
-        clients.add(cliente);
+    public boolean save(Client cliente) {
+        if (cliente == null) {
+            return false;
+        }
+        boolean added = clients.add(cliente);
+        if (added) {
+            persistence.saveClients(clients);
+        }        
+        return added;
     }
 
+    @Override
+    public void editClient(int id, Client datosNuevos) {
+        for (Client client : clients) {
+            if (client.getId() == id) {
+                client.setName(datosNuevos.getName());
+                client.setLastName(datosNuevos.getLastName());
+                client.setEmail(datosNuevos.getEmail());
+                client.setPhoneNumber(datosNuevos.getPhoneNumber());
+                persistence.saveClients(clients);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void deleteClient(int id) {
+        clients.removeIf(client -> client.getId() == id);
+        persistence.saveClients(clients);
+    }
+
+    @Override
+    public Client findClientById(int id) {
+        for (Client client : clients) {
+            if (client.getId() == id) {
+                return client;
+            }
+        }
+        return null;
+    }
+    
     @Override
     public List<Client> getAllClients() {
         return new ArrayList<>(clients);
     }
-    
 }

@@ -1,0 +1,10 @@
+[
+  {
+    "productId": 123,
+    "productName": "Camisa",
+    "productSize": "M",
+    "productColor": "Blanca",
+    "productPrice": 1000.0,
+    "productStock": 90
+  }
+]
