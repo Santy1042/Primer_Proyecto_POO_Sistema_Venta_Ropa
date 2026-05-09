@@ -4,8 +4,8 @@
  */
 package com.tienda.sventasropa.UI;
 
+import com.tienda.sventasropa.interfaces.IClientService;
 import com.tienda.sventasropa.model.Client;
-import com.tienda.sventasropa.service.ClientService;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,33 +16,33 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JClientTable extends javax.swing.JInternalFrame {
 
-    private ClientService clientService;
+    private IClientService iclientService;
 
     public JClientTable() {
         initComponents();
         initClientTable();
     }
 
-    public JClientTable(ClientService clientService) {
+    public JClientTable(IClientService iclientService) {
         this();
-        this.clientService = clientService;
+        this.iclientService = iclientService;
         loadClients();
         UITheme.apply(this);
     }
 
-    public void setClientService(ClientService clientService) {
-        this.clientService = clientService;
+    public void setClientService(IClientService iclientService) {
+        this.iclientService = iclientService;
     }
 
     public void loadClients() {
         DefaultTableModel model = (DefaultTableModel) clientTable.getModel();
         model.setRowCount(0);
 
-        if (clientService == null) {
+        if (iclientService == null) {
             return;
         }
 
-        List<Client> clients = clientService.getAllClients();
+        List<Client> clients = iclientService.getAllClients();
         for (Client client : clients) {
             model.addRow(new Object[]{
                 client.getId(),

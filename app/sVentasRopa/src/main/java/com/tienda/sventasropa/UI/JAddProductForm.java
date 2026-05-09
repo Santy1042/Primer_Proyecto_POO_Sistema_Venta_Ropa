@@ -1,18 +1,18 @@
 package com.tienda.sventasropa.UI;
 
-import com.tienda.sventasropa.service.ProductService;
+import com.tienda.sventasropa.interfaces.IProductService;
 import javax.swing.JOptionPane;
 import java.awt.Dimension;
 
 public class JAddProductForm extends javax.swing.JInternalFrame {
 
-    private final ProductService productService;
+    private final IProductService iproductService;
 
     /**
      * Constructor para NetBeans (sin argumentos)
      */
     public JAddProductForm() {
-        this.productService = null;
+        this.iproductService = null;
         initComponents();
     }
 
@@ -20,8 +20,8 @@ public class JAddProductForm extends javax.swing.JInternalFrame {
      * Constructor principal para la aplicación.
      * Recibe el servicio ya instanciado desde el MainFrame.
      */
-    public JAddProductForm(ProductService productService) {
-        this.productService = productService;
+    public JAddProductForm(IProductService iproductService) {
+        this.iproductService = iproductService;
         initComponents();
         UITheme.apply(this);
         setSize(600, 450);
@@ -200,7 +200,7 @@ public class JAddProductForm extends javax.swing.JInternalFrame {
             int stock = Integer.parseInt(txtStock.getText().trim());
 
             // 2. Se delega toda la responsabilidad al Servicio
-            if (productService != null && productService.addProduct(id, name, size, color, price, stock)) {
+            if (iproductService != null && iproductService.addProduct(id, name, size, color, price, stock)) {
                 JOptionPane.showMessageDialog(this, "Product added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 btnClearActionPerformed(null); // Limpiar formulario tras guardar
             }
